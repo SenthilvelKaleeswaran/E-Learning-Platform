@@ -25,8 +25,7 @@ async function fetchApi({
     return response.data;
   } catch (error: any) {
     console.error("API Error Response:", error);
-    return error.response.data || error.message
-    
+    return error.response.data || error.message;
   }
 }
 
@@ -34,12 +33,19 @@ export const registerUser = async (data: {
   email: string;
   password: string;
 }) => {
-  const response = await fetchApi({
+  return await fetchApi({
     endpoint: "/auth/register",
     method: "POST",
     data,
   });
-  return response;
+};
+
+export const getAllCourses = async () => {
+  return await fetchApi({ endpoint: "/course" });
+};
+
+export const getCourse = async (id: string) => {
+  return await fetchApi({ endpoint: `/course/${id}` });
 };
 
 
