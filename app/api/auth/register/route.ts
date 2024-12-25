@@ -12,8 +12,8 @@ export async function POST(request: NextRequest) {
 
     if (existingUser) {
       return NextResponse.json(
-        { error: "User already exists.Please login !" },
-        { status: 409 }
+        { error: "User already exists. Please login !" },
+        { status : 409}
       );
     }
 
