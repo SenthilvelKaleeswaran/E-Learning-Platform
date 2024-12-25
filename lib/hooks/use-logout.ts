@@ -12,7 +12,7 @@ const useLogout = (setIsLoggingOut: any) => {
       return response;
     },
     onMutate: () => {
-      toast.loading("We are securely logging you out. Please wait a moment.");
+      toast.loading("We are securely logging you out. Please wait a moment.",{id : "logout"});
     },
     onSuccess: (data: any) => {
       if (data?.error) {
@@ -20,13 +20,13 @@ const useLogout = (setIsLoggingOut: any) => {
           "We encountered an issue while logging you out. Please try again."
         );
       } else {
-        toast.success("Successfully Logged Out !");
+        toast.success("Successfully Logged Out !",{id : "logout"});
         router.push("/login");
       }
       setIsLoggingOut(false);
     },
     onError: (error: any) => {
-      toast.error("Logout Failed !");
+      toast.error("Logout Failed !",{id : "logout"});
       setIsLoggingOut(false);
     },
   });
