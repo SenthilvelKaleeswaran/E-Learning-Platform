@@ -41,13 +41,18 @@ model Topic {
 }
 
 model MyCourse {
-  id             String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId         String   @db.ObjectId
-  courseId       String   @db.ObjectId
-  course         Course   @relation(fields: [courseId], references: [id])
-  user           User     @relation(fields: [userId], references: [id])
-  completedUnits String[]
-  status         Status
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  userId          String           @db.ObjectId
+  courseId        String           @db.ObjectId
+  course          Course           @relation(fields: [courseId], references: [id])
+  user            User             @relation(fields: [userId], references: [id])
+  completedTopics CompletedTopic[]
+  status          Status           @default(NOT_STARTED)
+}
+
+type CompletedTopic {
+  topicId     String?  @db.ObjectId
+  completedAt DateTime @default(now())
 }
 
 enum Status {
