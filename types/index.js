@@ -1,5 +1,6 @@
-import {InputProps} from './ui'
+import {InputProps,ButtonProps} from './ui'
 
 export {
+    ButtonProps,
     InputProps
 }

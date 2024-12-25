@@ -1,8 +1,15 @@
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-    label?: string; // Optional label text
-    id: string; // Required for accessibility
-    className?: string; // Optional class for the wrapper div
-    labelClassName?: string; // Optional class for the label
-    inputClassName?: string; // Optional class for the input
-  }
-  
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string; 
+  id: string; 
+  className?: string; 
+  labelClassName?: string;
+  inputClassName?: string; 
+}
+
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  children: React.ReactNode; 
+  className?: string; 
+  type?: "button" | "submit";
+}
