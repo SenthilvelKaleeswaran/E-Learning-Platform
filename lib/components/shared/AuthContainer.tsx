@@ -32,7 +32,7 @@ const AuthContainer = ({ title, description, fields, type }: any) => {
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         {fields?.map((item: any) => (
-          <Input {...item} />
+          <Input key={item?.id} {...item}  />
         ))}
         <div className="">
           <Button type="submit" className="">

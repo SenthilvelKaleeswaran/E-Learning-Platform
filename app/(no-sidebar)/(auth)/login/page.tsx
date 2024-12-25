@@ -7,9 +7,9 @@ import { redirect } from "next/navigation";
 export default async function Login() {
   const session = await getServerSession(authOptions as any);
 
-  // if (session) {
-  //   redirect("/");
-  // }
+  if (session) {
+    redirect("/");
+  }
 
   return (
     <AuthContainer
