@@ -1,5 +1,5 @@
 import authOptions from "@/lib/auth/auth-options";
-import { Header } from "@/lib/components/shared";
+import { Header, Sidebar } from "@/lib/components/shared";
 import { getServerSession } from "next-auth";
 
 export default async function Layout({
@@ -7,12 +7,14 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
-  const session : any = await getServerSession(authOptions as any)
+  const session: any = await getServerSession(authOptions as any);
   return (
     <main>
       <Header user={session?.user} />
-      <div>{children}</div>
+      <div className="flex gap-2">
+        <Sidebar />
+        {children}
+      </div>
     </main>
   );
 }

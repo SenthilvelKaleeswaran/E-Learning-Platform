@@ -3,9 +3,13 @@ import Logo from "./logo";
 import { IoLogOutOutline } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa6";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { LuLayoutDashboard } from "react-icons/lu";
+import { FaRegFile } from "react-icons/fa6";
 
 const iconMap = {
+  Dashboard : LuLayoutDashboard,
   DownArrow: RiArrowDropDownLine,
+  File : FaRegFile,
   Logo,
   LogOut: IoLogOutOutline,
   User: FaRegUser,
