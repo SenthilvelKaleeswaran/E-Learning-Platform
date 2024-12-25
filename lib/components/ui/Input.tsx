@@ -25,7 +25,6 @@ const Input: FC<InputProps> = ({
         id={id}
         className={` p-2 rounded-sm border border-gray-400 bg-white `}
         {...rest}
-        type="password"
 
       />
     </div>
