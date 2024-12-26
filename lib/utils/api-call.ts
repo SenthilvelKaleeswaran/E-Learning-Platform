@@ -53,9 +53,9 @@ export const getMyCourses = async () => {
 };
 
 export const addToMyCourse = async (id: string) => {
-  return await fetchApi({ endpoint: "/my-course", method: "POST", data: id });
+  return await fetchApi({ endpoint: "/my-course", method: "POST", data: {id} });
 };
 
-export const updateMyCourse = async (id: string, data: string) => {
-  return await fetchApi({ endpoint: `/my-course/${id}`, method: "PATCH", data });
+export const updateMyCourse = async ( data: any) => {
+  return await fetchApi({ endpoint: `/my-course`, method: "PATCH", data  });
 };

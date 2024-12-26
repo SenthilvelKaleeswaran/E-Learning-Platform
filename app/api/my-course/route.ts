@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   try {
     const token = verifyApiAccess(request);
 
-    const userId = (token as any)?.user?.id;
+    const userId = (token as any)?.sub;
 
     const courses = await prisma.myCourse.findAll({
       where: { userId },
@@ -38,8 +38,8 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const token = verifyApiAccess(request);
-    const userId = (token as any)?.user?.id;
+    const token = await verifyApiAccess(request);
+    const userId = (token as any)?.sub;
 
     const { id } = await request.json();
 
@@ -78,6 +78,44 @@ export async function POST(request: NextRequest) {
         error:
           "An error occurred while registering the course. Please try again later.",
       },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  try {
+    verifyApiAccess(request);
+
+    const { id, ...rest } = await request.json();
+
+    if (!id) {
+      return NextResponse.json({ error: "No Id found" }, { status: 400 });
+    }
+
+    if (!rest) {
+      return NextResponse.json({ error: "No data provided" }, { status: 400 });
+    }
+
+    const updatedCourse = await prisma.myCourse.update({
+      where: { id },
+      data: rest,
+    });
+
+    if (!updatedCourse) {
+      console.error("Failed to update the course in the database");
+      return NextResponse.json(
+        { error: "Failed to update the course" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ message: "Course successfully updated" });
+  } catch (error) {
+    console.log("Error during PATCH operation:", error);
+
+    return NextResponse.json(
+      { error: "Failed to update the course. Please try again later." },
       { status: 500 }
     );
   }

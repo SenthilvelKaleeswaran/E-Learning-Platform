@@ -1,12 +1,22 @@
-import React, { FC } from 'react';
-import { ButtonProps } from '@/types';
+import React, { FC } from "react";
+import { ButtonProps } from "@/types";
 
-const Button: FC<ButtonProps> = ({ children,className = "", type = 'button', ...rest }) => {
+const Button: FC<ButtonProps> = ({
+  children,
+  className = "",
+  disabled,
+  type = "button",
+  ...rest
+}) => {
   return (
     <button
       type={type}
-      className={` p-2 bg-blue-600 text-white rounded-sm w-full ${className}`}
+      className={` p-2 bg-blue-600 text-white rounded-sm w-full ${
+        disabled ? "opacity-60" : ""
+      } ${className}`}
+      disabled={disabled}
       {...rest}
+
     >
       {children}
     </button>
