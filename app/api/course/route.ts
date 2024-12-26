@@ -1,4 +1,5 @@
 import verifyApiAccess from "@/lib/auth/verify-api-access";
+import { formatCourseData } from "@/lib/utils";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -6,8 +7,8 @@ const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
   try {
-    const token = verifyApiAccess(request);
-    const userId = (token as any)?.user?.id;
+    const token = await verifyApiAccess(request);
+    const userId = (token as any)?.sub;
 
     const [courses, myCourses] = await Promise.all([
       prisma.course.findMany({
@@ -33,22 +34,9 @@ export async function GET(request: NextRequest) {
 
     const coursesWithProgress = courses.map((course: any) => {
       const details = myCoursesMap.get(course.id);
-      
-      if (details !== undefined) {
-        const totalTopics = course.chapters.reduce(
-          (count: number, chapter: { topics: any[] }) => 
-            count + chapter.topics.length,
-          0
-        );
 
-        return {
-          ...course,
-          isMyCourse: true,
-          myCourseId : details?.id,
-          status : details?.status,
-          completedPercentage: (details?.length / totalTopics) * 100 || 0
-        };
-      }
+      if (details !== undefined) return formatCourseData(course, details);
+
       return course;
     });
 
