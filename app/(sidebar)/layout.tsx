@@ -9,11 +9,11 @@ export default async function Layout({
 }>) {
   const session: any = await getServerSession(authOptions as any);
   return (
-    <main>
+    <main className="h-screen w-full">
       <Header user={session?.user} />
-      <div className="flex gap-2">
+      <div className="flex h-[100%] w-full">
         <Sidebar />
-        {children}
+        <div className="p-4">{children}</div>
       </div>
     </main>
   );
