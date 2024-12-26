@@ -1,4 +1,7 @@
 import { validatePattern } from "./validate-pattern";
-import { formatCourseData } from "./calculate-percentage";
+import { calculateTotalTopics, formatCourseData } from "./calculate-percentage";
 import { queryParams } from "./query-params";
-export {formatCourseData, queryParams,validatePattern };
+import { formatDateTime } from "./format-date-time";
+
+
+export {calculateTotalTopics, formatCourseData, formatDateTime, queryParams, validatePattern };

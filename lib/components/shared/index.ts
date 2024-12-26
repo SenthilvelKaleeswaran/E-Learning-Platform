@@ -4,6 +4,7 @@ import Sidebar from './Sidebar'
 import PageHeader from './PageHeader'
 import CourseCard from './CourseCard'
 import EdgecaseContainer from './EdgecaseContainer'
+import RenderSpace from './RenderSpace'
 
 export {
     AuthContainer,
@@ -11,5 +12,6 @@ export {
     EdgecaseContainer,
     Header,
     PageHeader,
+    RenderSpace,
     Sidebar
 }

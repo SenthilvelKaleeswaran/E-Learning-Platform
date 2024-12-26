@@ -6,18 +6,21 @@ import { FaRegUser } from "react-icons/fa6";
 import { IoIosArrowDown } from "react-icons/io";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FaRegFile } from "react-icons/fa6";
-import { TiTick } from "react-icons/ti";
 import { IoIosArrowUp } from "react-icons/io";
-
+import { LuCalendarDays } from "react-icons/lu";
+import { FaChevronLeft } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
 const iconMap = {
+  ArrowLeft : FaChevronLeft,
   ArrowUp: IoIosArrowUp,
   ArrowDown : IoIosArrowDown,
+  Calendar : LuCalendarDays,
   Dashboard : LuLayoutDashboard,
   File : FaRegFile,
   Logo,
   LogOut: IoLogOutOutline,
   Module,
-  Tick :TiTick,
+  Tick :FaCheck,
   User: FaRegUser,
 } as const;
 

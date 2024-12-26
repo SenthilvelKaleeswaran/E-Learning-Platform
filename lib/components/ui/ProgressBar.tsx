@@ -26,7 +26,7 @@ const ProgressBar = ({ value }:any) => {
           style={{ width: `${progress}%` }}
         ></div>
       </div>
-      <p className="text-sm mt-2">{progress}% Completed</p>
+      <p className="text-sm mt-2">{progress.toFixed(0)}% Completed</p>
     </div>
   );
 };
