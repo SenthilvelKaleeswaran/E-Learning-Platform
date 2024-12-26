@@ -40,7 +40,7 @@ const ProfileMenu = ({ user }: any) => {
         <div className="rounded-full bg-blue-600 text-white w-8 h-8 flex items-center justify-center">
           {getProfileCardLetter()}
         </div>
-        <Icon name="DownArrow" />
+        <Icon name="ArrowDown" />
       </div>
       {open && (
         <div className="absolute mt-2 right-0 border border-gray-300 p-2 rounded-md bg-white shadow-md z-50 space-y-2 w-52">
