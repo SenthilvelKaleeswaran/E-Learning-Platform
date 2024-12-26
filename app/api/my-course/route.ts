@@ -6,18 +6,20 @@ const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
   try {
-    const token = verifyApiAccess(request);
+    const token = await verifyApiAccess(request);
 
     const userId = (token as any)?.sub;
+    const url = new URL(request.url);
+    const filter = JSON.parse(url.searchParams.get("filter") || "") || {};
 
-    const courses = await prisma.myCourse.findAll({
-      where: { userId },
+    const courses = await prisma.myCourse.findMany({
+      where: { userId: "676bd835e8023d6ecfe946fc", ...filter },
       include: {
-        Course: {
+        course: {
           include: {
-            Chapter: {
+            chapters: {
               include: {
-                Topic: true,
+                topics: true,
               },
             },
           },
@@ -85,7 +87,7 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    verifyApiAccess(request);
+    await verifyApiAccess(request);
 
     const { id, ...rest } = await request.json();
 

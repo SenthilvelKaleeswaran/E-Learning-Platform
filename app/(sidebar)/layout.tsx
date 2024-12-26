@@ -13,7 +13,7 @@ export default async function Layout({
       <Header user={session?.user} />
       <div className="flex h-[100%] w-full">
         <Sidebar />
-        <div className="p-4">{children}</div>
+        <div className="p-4 w-full">{children}</div>
       </div>
     </main>
   );

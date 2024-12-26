@@ -20,14 +20,23 @@ function useTabs() {
 function Tabs({
   children,
   defaultTab,
-}: {
+  onTabChange
+}:  {
   children: ReactNode;
   defaultTab: string;
+  onTabChange?: (activeTab: string) => void; 
 }) {
   const [activeTab, setActiveTab] = useState(defaultTab);
 
+  const handleSetActiveTab = (id: string) => {
+    setActiveTab(id);
+    if (onTabChange) {
+      onTabChange(id);
+    }
+  };
+
   return (
-    <TabsContext.Provider value={{ activeTab, setActiveTab }}>
+    <TabsContext.Provider value={{ activeTab, setActiveTab: handleSetActiveTab }}>
       <div className="w-full">{children}</div>
     </TabsContext.Provider>
   );

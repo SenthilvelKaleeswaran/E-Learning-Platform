@@ -3,7 +3,7 @@ import { CourseLibrary } from "@/lib/components/screens";
 import { getAllCourses } from "@/lib/utils/api-call";
 
 export default async function Register() {
-  const session = await accessPage();
+  await accessPage();
 
   const courses = await getAllCourses()
 

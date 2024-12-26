@@ -41,9 +41,8 @@ export default function CourseCard({ data, showCompleted }: any) {
             </div>
 
             <div>
-              {item?.isMyCourse ? (
+              {item?.myCourseId ? (
                 <div className="flex justify-between gap-4">
-                  
                   <ProgressBar
                     value={
                       item?.status === "COMPLETED"
@@ -57,14 +56,12 @@ export default function CourseCard({ data, showCompleted }: any) {
                       onClick={(e) => {
                         e.stopPropagation();
                         handleUpdateMyCourrse({
-                          id: item?.myCourseId || item?.id,
+                          id: item?.myCourseId,
                           status: "COMPLETED",
                         });
                       }}
                       className="z-50"
-                      disabled={
-                        updateRequested === item?.myCourseId || item?.courseId
-                      }
+                      disabled={updateRequested === item?.myCourseId}
                     >
                       Completed
                     </Button>
@@ -73,7 +70,10 @@ export default function CourseCard({ data, showCompleted }: any) {
               ) : (
                 <div className="flex justify-end gap-4">
                   <Button
-                    onClick={() => handleAddToMyCourse(item?.id)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAddToMyCourse(item?.id);
+                    }}
                     disabled={variables === item?.id}
                     className="w-fit px-4 "
                   >
