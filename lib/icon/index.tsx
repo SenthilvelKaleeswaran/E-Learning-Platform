@@ -3,14 +3,16 @@ import Module from "./module";
 import Logo from "./logo";
 import { IoLogOutOutline } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa6";
-import { RiArrowDropDownLine } from "react-icons/ri";
+import { IoIosArrowDown } from "react-icons/io";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { FaRegFile } from "react-icons/fa6";
 import { TiTick } from "react-icons/ti";
+import { IoIosArrowUp } from "react-icons/io";
 
 const iconMap = {
+  ArrowUp: IoIosArrowUp,
+  ArrowDown : IoIosArrowDown,
   Dashboard : LuLayoutDashboard,
-  DownArrow: RiArrowDropDownLine,
   File : FaRegFile,
   Logo,
   LogOut: IoLogOutOutline,
