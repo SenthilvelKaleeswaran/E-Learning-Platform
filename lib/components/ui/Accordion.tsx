@@ -46,7 +46,7 @@ const AccordionItem = ({
   };
 
   return (
-    <div className="border mb-2 rounded-md">
+    <div className="border">
       <div
         className={`flex gap-4 justify-between items-center cursor-pointer py-2 px-4  ${
           isActive ? "bg-gray-200 text-blue-500" : ""

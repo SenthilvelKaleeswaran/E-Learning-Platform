@@ -11,7 +11,7 @@ const Button: FC<ButtonProps> = ({
   return (
     <button
       type={type}
-      className={` p-2 bg-blue-600 text-white rounded-sm w-full ${
+      className={` p-2 bg-blue-600 text-white rounded-md w-fit px-4 ${
         disabled ? "opacity-60" : ""
       } ${className}`}
       disabled={disabled}

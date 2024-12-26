@@ -49,9 +49,9 @@ export const getCourse = async (id: string) => {
 };
 
 export const getMyCourses = async (filter: any) => {
-  // const queryParams = new URLSearchParams(filter).toString();
-
-  return await fetchApi({ endpoint: `/my-course?filter=${JSON.stringify(filter)}` });
+  return await fetchApi({
+    endpoint: `/my-course?filter=${JSON.stringify(filter)}`,
+  });
 };
 
 export const addToMyCourse = async (id: string) => {
