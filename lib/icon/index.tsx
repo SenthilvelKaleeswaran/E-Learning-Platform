@@ -13,6 +13,8 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { LuBookA } from "react-icons/lu";
+import { PiCatFill } from "react-icons/pi";
+import { IoPaw } from "react-icons/io5";
 const iconMap = {
   ArrowLeft : FaChevronLeft,
   ArrowUp: IoIosArrowUp,
@@ -22,7 +24,8 @@ const iconMap = {
   Close : IoClose,
   Dashboard : LuLayoutDashboard,
   File : FaRegFile,
-  Logo,
+  Logo  :PiCatFill,
+  LogoTail : IoPaw,
   LogOut: IoLogOutOutline,
   Menu : AiOutlineMenu,
   Module,
