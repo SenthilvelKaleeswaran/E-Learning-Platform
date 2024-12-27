@@ -1,12 +1,12 @@
 "use client";
 import { Button, Input } from "@/lib/components/ui";
 import { useLogin, useRegister } from "@/lib/hooks";
-import { FormEvent, useState } from "react";
+import { FormEvent } from "react";
 import Logo from "./Logo";
 
 const AuthContainer = ({ title, description, fields, type }: any) => {
-  const { mutate: onLogin } = useLogin();
-  const { mutate: onRegister } = useRegister();
+  const { mutate: onLogin ,isPending : isLoggingIn} = useLogin();
+  const { mutate: onRegister ,isPending  : isRegistering} = useRegister();
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -34,8 +34,8 @@ const AuthContainer = ({ title, description, fields, type }: any) => {
         {fields?.map((item: any) => (
           <Input key={item?.id} {...item}  />
         ))}
-        <div className="">
-          <Button type="submit" className="">
+        <div>
+          <Button type="submit" className="w-full" disabled={isLoggingIn || isRegistering}>
             {type === "login" ? "Log In" : "Sign Up"}
           </Button>
         </div>
