@@ -4,7 +4,11 @@ import React, { useEffect, useState } from "react";
 import CourseSidebar from "./course/CourseSidebar";
 import TopicSpace from "./course/TopicSpace";
 import { useAddToMyCourse, useUpdateMyCourse } from "@/lib/hooks";
-import { calculateTotalTopics, formatDateTime } from "@/lib/utils";
+import {
+  calculateTotalTopics,
+  formatDateTime,
+  handleCourseCompletion,
+} from "@/lib/utils";
 import {
   Button,
   Drawer,
@@ -66,25 +70,13 @@ export default function CourseScreen({ data }: CourseScreenProps) {
     handleTopicSelect(currentTopic, time);
   };
 
-  const handleCourseCompletion = () => {
-    const topicId = data?.course?.chapters
-      ?.map((item: any) => {
-        return item?.topics?.map((topic: any) => {
-          if (!completedTopics?.includes(topic?.id))
-            return {
-              topicId: topic?.id,
-            };
-        });
-      })
-      .flat()
-      .filter((item: any) => Boolean(item));
-
-    handleUpdateMyCourrse({
+  const handleCompletion = () => {
+    handleCourseCompletion({
+      chapters: data?.course?.chapters,
       id: data?.myCourse?.id,
-      status: "COMPLETED",
-      completedTopics: { push: topicId },
+      completedTopics,
+      submit: handleUpdateMyCourrse,
     });
-    console.log({ topicId });
   };
 
   const handleUpdateTopic = () => {
@@ -120,7 +112,7 @@ export default function CourseScreen({ data }: CourseScreenProps) {
         currentTopic={currentTopic}
         completedTopics={completedTopics}
         disabled={isDisabled()}
-        handleCourseCompletion={handleCourseCompletion}
+        handleCourseCompletion={handleCompletion}
         handleAddToMyCourse={handleAddToMyCourse}
       />
     );
@@ -180,11 +172,11 @@ export default function CourseScreen({ data }: CourseScreenProps) {
           {renderSideBar()}
         </div>
 
-          <TopicSpace
-            data={data}
-            currentTopic={currentTopic}
-            renderStatusButton={renderStatusButton}
-          />
+        <TopicSpace
+          data={data}
+          currentTopic={currentTopic}
+          renderStatusButton={renderStatusButton}
+        />
       </div>
     </div>
   );

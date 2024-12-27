@@ -5,15 +5,30 @@ import React from "react";
 import { Button, ProgressBar } from "@/lib/components/ui";
 import { useAddToMyCourse, useUpdateMyCourse } from "@/lib/hooks";
 import { useRouter } from "next/navigation";
+import { handleCourseCompletion } from "@/lib/utils";
 
 export default function CourseCard({ data, showCompleted }: any) {
   const router = useRouter();
   const { mutate: handleAddToMyCourse, variables } = useAddToMyCourse();
-  const { mutate: handleUpdateMyCourrse, variables: updateRequested } =
-    useUpdateMyCourse();
+  const {
+    mutate: handleUpdateMyCourse,
+    variables: updateRequested,
+    isPending: isCompleting,
+  } = useUpdateMyCourse();
+
+  const handleCompletion = (item: any) => {
+    const completedTopics =
+      item?.completedTopics?.map((item: any) => item?.topicId) || [];
+    handleCourseCompletion({
+      chapters: item?.chapters,
+      id: item?.myCourseId,
+      completedTopics,
+      submit: handleUpdateMyCourse,
+    });
+  };
 
   return (
-    <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
       {data?.map((item: any) => (
         <div
           onClick={() =>
@@ -27,13 +42,14 @@ export default function CourseCard({ data, showCompleted }: any) {
             alt={item?.name}
             width={320}
             height={150}
-            className="rounded-t-md object-cover"
-            objectFit="false"
+            className="w-full h-[164px] object-cover rounded-t-md"
           />
 
           <div className="px-4 py-2 space-y-4 border-b border-l border-r border-gray-400 rounded-b-md">
             <div className="flex justify-between items-center">
-              <p className="text-base font-semibold">{item?.name}</p>
+              <p className="text-base font-semibold text-ellipsis">
+                {item?.name}
+              </p>
               <div className="flex gap-1 items-center bg-blue-100 text-blue-500 py-1.5 px-2 rounded-md">
                 <Icon name="Module" />
                 <span>{item?.chapters?.length} modules</span>
@@ -55,12 +71,11 @@ export default function CourseCard({ data, showCompleted }: any) {
                     <Button
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleUpdateMyCourrse({
-                          id: item?.myCourseId,
-                          status: "COMPLETED",
-                        });
+                        handleCompletion(item);
                       }}
-                      disabled={updateRequested === item?.myCourseId}
+                      disabled={
+                        updateRequested?.id === item?.myCourseId || isCompleting
+                      }
                     >
                       Completed
                     </Button>
