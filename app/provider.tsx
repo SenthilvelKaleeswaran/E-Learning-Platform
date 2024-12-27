@@ -8,17 +8,18 @@ const queryClient = new QueryClient();
 
 const Provider: React.FC<PropsWithChildren> = ({ children }) => {
   return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-      <Toaster
-        containerStyle={{
-          top: 20,
-          left: 20,
-          bottom: 20,
-          right: 20,
-        }}
-      />
-    </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        {children}
+        <Toaster
+          position="top-right"
+          containerStyle={{
+            top: 20,
+            left: 20,
+            bottom: 20,
+            right: 20,
+          }}
+        />
+      </QueryClientProvider>
   );
 };
 
