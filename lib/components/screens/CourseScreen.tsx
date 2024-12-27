@@ -5,6 +5,14 @@ import CourseSidebar from "./course/CourseSidebar";
 import TopicSpace from "./course/TopicSpace";
 import { useAddToMyCourse, useUpdateMyCourse } from "@/lib/hooks";
 import { calculateTotalTopics, formatDateTime } from "@/lib/utils";
+import {
+  Button,
+  Drawer,
+  DrawerPanel,
+  DrawerTrigger,
+} from "@/lib/components/ui";
+import { Icon } from "@/lib/icon";
+import { BackButton, RenderSpace } from "@/lib/components/shared";
 
 interface CourseScreenProps {
   data: any;
@@ -104,28 +112,79 @@ export default function CourseScreen({ data }: CourseScreenProps) {
     );
   };
 
+  const renderSideBar = () => {
+    return (
+      <CourseSidebar
+        data={data}
+        handleTopicSelect={handleTopicSelect}
+        currentTopic={currentTopic}
+        completedTopics={completedTopics}
+        disabled={isDisabled()}
+        handleCourseCompletion={handleCourseCompletion}
+        handleAddToMyCourse={handleAddToMyCourse}
+      />
+    );
+  };
+
+  const renderStatusButton = () => {
+    if (isTopicCompleted) {
+      return (
+        <div className="space-y-2">
+          <div className="flex gap-2 items-center text-green-500 bg-green-200 rounded-full px-4 py-1">
+            <Icon name="Tick" />
+            <span className="text-sm">Completed</span>
+          </div>
+
+          <RenderSpace condition={currentTopic?.date}>
+            <div className="flex gap-2 text-xs px-2 text-gray-500">
+              <Icon name="Calendar" />
+              <span>{currentTopic?.date}</span>
+              <span>{currentTopic?.time?.slice(0, 5)}</span>
+            </div>
+          </RenderSpace>
+        </div>
+      );
+    } else {
+      return (
+        <RenderSpace condition={data?.myCourse && currentTopic?.id}>
+          <Button disabled={isDisabled()} onClick={handleUpdateTopic}>
+            Completed
+          </Button>
+        </RenderSpace>
+      );
+    }
+  };
+
   return (
-    <div className="h-full w-full space-y-4">
+    <div className=" w-full">
+      <div className="flex md:hidden items-start justify-between gap-4  w-full  p-2">
+        <div className="flex gap-2 items-center">
+          <BackButton />
+
+          <Drawer>
+            <DrawerTrigger>
+              <div className="border p-2 rounded-md bg-gray-200 cursor-pointer">
+                Course Content
+              </div>
+            </DrawerTrigger>
+            <DrawerPanel header={"Course Content"}>
+              <div className="w-full h-full border-r">{renderSideBar()}</div>
+            </DrawerPanel>
+          </Drawer>
+        </div>
+        <div>{renderStatusButton()}</div>
+      </div>
+
       <div className="flex">
-        <div className="w-[400px] h-full border-r ">
-          <CourseSidebar
-            data={data}
-            handleTopicSelect={handleTopicSelect}
-            currentTopic={currentTopic}
-            completedTopics={completedTopics}
-            disabled={isDisabled()}
-            handleCourseCompletion={handleCourseCompletion}
-            handleAddToMyCourse={handleAddToMyCourse}
-          />
+        <div className="w-[400px] border-r hidden md:block">
+          {renderSideBar()}
         </div>
 
-        <TopicSpace
-          data={data}
-          isTopicCompleted={isTopicCompleted}
-          currentTopic={currentTopic}
-          disabled={isDisabled()}
-          handleUpdateTopic={handleUpdateTopic}
-        />
+          <TopicSpace
+            data={data}
+            currentTopic={currentTopic}
+            renderStatusButton={renderStatusButton}
+          />
       </div>
     </div>
   );

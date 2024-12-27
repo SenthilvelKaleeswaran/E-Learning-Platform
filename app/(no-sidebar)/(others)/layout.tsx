@@ -9,7 +9,7 @@ export default async function Layout({
 }>) {
   const session: any = await getServerSession(authOptions as any);
   return (
-    <main className="h-screen w-full">
+    <main className="h-full w-full">
       <Header user={session?.user} />
       <div className="w-full">{children}</div>
     </main>
