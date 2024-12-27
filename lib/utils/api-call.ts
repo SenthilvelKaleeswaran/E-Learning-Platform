@@ -1,4 +1,6 @@
+"use server"
 import axios from "axios";
+import { cookies } from "next/headers";
 
 async function fetchApi({
   endpoint,
@@ -13,9 +15,11 @@ async function fetchApi({
 
   const options = {
     method,
+    credentials: "include",
     url,
     headers: {
       "Content-Type": "application/json",
+      Cookie: (await cookies()).toString()
     },
     data,
   };

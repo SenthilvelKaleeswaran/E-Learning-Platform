@@ -1,4 +1,3 @@
-import verifyApiAccess from "@/lib/auth/verify-api-access";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -15,8 +14,11 @@ export async function GET(
       return NextResponse.json({ error: "No Id found" }, { status: 400 });
     }
 
-    const token = await verifyApiAccess(request);
-    const userId = (token as any)?.sub;
+    const userId = request.headers.get("x-loc-user")
+
+    if (!userId) {
+      return NextResponse.json({ error: "Not Authorized" }, { status: 400 });
+    }
 
     const [course, myCourse] = await Promise.all([
       prisma.course.findUnique({
@@ -30,7 +32,7 @@ export async function GET(
         },
       }),
       prisma.myCourse.findFirst({
-        where: { courseId: id, userId: "676bd835e8023d6ecfe946fc" },
+        where: { courseId: id, userId },
       }),
     ]);
 

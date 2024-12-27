@@ -7,10 +7,8 @@ import { redirect } from "next/navigation";
 export default async function Register() {
   const session = await getServerSession(authOptions as any);
 
-  console.log({session})
-
   if (session) {
-    redirect("/");
+    redirect("/my-course");
   }
 
   return (
