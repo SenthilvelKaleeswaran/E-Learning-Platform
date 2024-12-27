@@ -7,7 +7,7 @@ export default async function Layout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session: any = await getServerSession(authOptions as any);
+  const session: any = await getServerSession(authOptions);
   return (
     <main className="h-[calc(100vh-66px)] w-full">
       <Header user={session?.user} drawerContent={<Sidebar />} header="Menus" />

@@ -60,11 +60,9 @@ export default function MyCourseScreen({ courses, params }: any) {
     }
 
     return (
-      <EdgecaseContainer
-      title={title}
-        description={description}
-        children={children}
-      />
+      <EdgecaseContainer title={title} description={description}>
+        {children}
+      </EdgecaseContainer>
     );
   };
 

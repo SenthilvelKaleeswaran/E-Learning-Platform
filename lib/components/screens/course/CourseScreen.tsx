@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useAddToMyCourse, useUpdateMyCourse } from "@/lib/hooks";
 import {
   calculateTotalTopics,
@@ -23,7 +23,10 @@ interface CourseScreenProps {
 }
 
 export default function CourseScreen({ data }: CourseScreenProps) {
-  const initialTopic = data?.course?.chapters?.[0]?.topics?.[0] || {};
+  const initialTopic = useMemo(() => {
+    return data?.course?.chapters?.[0]?.topics?.[0] || {};
+  }, []);
+  
   const [currentTopic, setCurrentTopic] = useState<any>({});
 
   const completedTopics =
@@ -40,29 +43,32 @@ export default function CourseScreen({ data }: CourseScreenProps) {
     isPending,
   } = useUpdateMyCourse();
 
-  const handleTopicSelect = (selectedTopic: any, updateTime?: any) => {
-    const { id } = selectedTopic;
+  const handleTopicSelect = useCallback(
+    (selectedTopic: any, updateTime?: any) => {
+      const { id } = selectedTopic;
 
-    if (completedTopics.includes(id) || updateTime) {
-      const completionDate =
-        updateTime ||
-        data?.myCourse?.completedTopics?.find(
-          (item: any) => item?.topicId === id
-        )?.completedAt;
-      const { date, time } = formatDateTime(completionDate);
-      console.log({ date, time });
-      selectedTopic.date = date;
-      selectedTopic.time = time;
-    }
+      if (completedTopics.includes(id) || updateTime) {
+        const completionDate =
+          updateTime ||
+          data?.myCourse?.completedTopics?.find(
+            (item: any) => item?.topicId === id
+          )?.completedAt;
+        const { date, time } = formatDateTime(completionDate);
+        console.log({ date, time });
+        selectedTopic.date = date;
+        selectedTopic.time = time;
+      }
 
-    setCurrentTopic(selectedTopic);
-  };
+      setCurrentTopic(selectedTopic);
+    },
+    []
+  );
 
   useEffect(() => {
     if (!(currentTopic as any)?.id) {
       handleTopicSelect(initialTopic);
     }
-  }, []);
+  }, [currentTopic, initialTopic, handleTopicSelect]);
 
   const handleUpdateMyCourse = (data: any) => {
     const time = new Date();
@@ -80,7 +86,7 @@ export default function CourseScreen({ data }: CourseScreenProps) {
   };
 
   const handleUpdateTopic = () => {
-    let payload: any = {
+    const payload: any = {
       id: data?.myCourse?.id,
       completedTopics: { push: { topicId: currentTopic?.id } },
     };

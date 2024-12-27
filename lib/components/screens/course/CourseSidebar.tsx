@@ -4,7 +4,6 @@ import React from "react";
 import { Accordion, AccordionItem, Button } from "@/lib/components/ui";
 import { Icon } from "@/lib/icon";
 import { BackButton, RenderSpace } from "../../shared";
-import { useRouter } from "next/navigation";
 
 interface TopicListProps {
   topics: any[];
@@ -64,7 +63,6 @@ export default function CourseSidebar({
   ...rest
 }: CourseSidebarProps) {
   const chapters = data?.course?.chapters || [];
-  const router = useRouter();
 
   return (
     <div className="flex flex-col h-[calc(100vh-66px)] overflow-y-auto">

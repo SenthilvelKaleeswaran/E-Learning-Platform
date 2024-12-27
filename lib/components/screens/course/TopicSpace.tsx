@@ -1,7 +1,6 @@
 import React from "react";
-import { Button, Video } from "@/lib/components/ui";
+import {  Video } from "@/lib/components/ui";
 import { PageHeader, RenderSpace } from "@/lib/components/shared";
-import { Icon } from "@/lib/icon";
 
 export default function TopicSpace({
   data,

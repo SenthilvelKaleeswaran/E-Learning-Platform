@@ -1,10 +1,11 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaClient } from "@prisma/client";
-import { compare } from "bcrypt"
+import { compare } from "bcrypt";
+import type { NextAuthOptions } from "next-auth";
 
 const prisma: any = new PrismaClient();
 
-const authOptions = {
+const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
@@ -23,7 +24,6 @@ const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials: any) {
-
         const user = await prisma.user.findFirst({
           where: { email: credentials.email },
         });
@@ -57,7 +57,7 @@ const authOptions = {
     async jwt({ token }: any) {
       return token;
     },
-    async session({ session, user, token }: any) {
+    async session({ session }: any) {
       return session;
     },
   },
