@@ -4,7 +4,6 @@ import authOptions from "./auth-options";
 
 export default async function accessPage() {
   const session: any = await getServerSession(authOptions as any);
-  console.log({ session });
 
   if (!session || !session?.user || !session?.user?.email) {
     redirect("/login");

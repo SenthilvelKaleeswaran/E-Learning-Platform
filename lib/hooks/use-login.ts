@@ -29,7 +29,7 @@ const useLogin = () => {
         toast.error(data.error);
       } else {
         toast.success("Logged in Successfully !",{id : "login"});
-        router.push("/");
+        router.push("/course-library");
         router.refresh();
       }
     },

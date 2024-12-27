@@ -1,19 +1,19 @@
-import verifyApiAccess from "@/lib/auth/verify-api-access";
 import { PrismaClient } from "@prisma/client";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function GET(request: NextRequest) {
+export async function GET(req :NextRequest) {
   try {
-    const token = await verifyApiAccess(request);
 
-    const userId = (token as any)?.sub;
-    const url = new URL(request.url);
+    const userId = req.headers.get("x-loc-user")
+
+    const url = new URL(req.url);
     const filter = JSON.parse(url.searchParams.get("filter") || "") || {};
 
     const courses = await prisma.myCourse.findMany({
-      where: { userId: "676bd835e8023d6ecfe946fc", ...filter },
+      where: { userId, ...filter },
       include: {
         course: {
           include: {
@@ -40,8 +40,11 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const token = await verifyApiAccess(request);
-    const userId = (token as any)?.sub;
+    const userId = request.headers.get("x-loc-user")
+
+    if (!userId) {
+      return NextResponse.json({ error: "Not Authorized" }, { status: 401 });
+    }
 
     const { id } = await request.json();
 
@@ -87,7 +90,12 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    await verifyApiAccess(request);
+
+    const userId = request.headers.get("x-loc-user")
+
+    if (!userId) {
+      return NextResponse.json({ error: "Not Authorized" }, { status: 400 });
+    }
 
     const { id, ...rest } = await request.json();
 
@@ -95,6 +103,7 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: "No Id found" }, { status: 400 });
     }
 
+    
     if (!rest) {
       return NextResponse.json({ error: "No data provided" }, { status: 400 });
     }

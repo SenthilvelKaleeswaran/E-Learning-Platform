@@ -1,4 +1,3 @@
-import verifyApiAccess from "@/lib/auth/verify-api-access";
 import { formatCourseData } from "@/lib/utils";
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
@@ -7,8 +6,12 @@ const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
   try {
-    const token = await verifyApiAccess(request);
-    const userId = (token as any)?.sub;
+   
+    const userId = request.headers.get("x-loc-user")
+
+    if (!userId) {
+      return NextResponse.json({ error: "Not Authorized" }, { status: 400 });
+    }
 
     const [courses, myCourses] = await Promise.all([
       prisma.course.findMany({

@@ -8,7 +8,7 @@ export default async function Login() {
   const session = await getServerSession(authOptions as any);
 
   if (session) {
-    redirect("/");
+    redirect("/my-course");
   }
 
   return (
