@@ -1,8 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import CourseSidebar from "./course/CourseSidebar";
-import TopicSpace from "./course/TopicSpace";
 import { useAddToMyCourse, useUpdateMyCourse } from "@/lib/hooks";
 import {
   calculateTotalTopics,
@@ -17,6 +15,8 @@ import {
 } from "@/lib/components/ui";
 import { Icon } from "@/lib/icon";
 import { BackButton, RenderSpace } from "@/lib/components/shared";
+import TopicSpace from "./TopicSpace";
+import CourseSidebar from "./CourseSidebar";
 
 interface CourseScreenProps {
   data: any;
