@@ -1,10 +1,16 @@
-import accessPage from "@/lib/auth/access-page";
+import authOptions from "@/lib/auth/auth-options";
 import Logo from "@/lib/components/shared/Logo";
 import { LinkButton } from "@/lib/components/ui";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
 import React from "react";
 
 export default async function Home() {
-  await accessPage()
+  const session: any = await getServerSession(authOptions);
+
+  if (session?.user?.email) {
+    redirect("/course-library");
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
