@@ -10,7 +10,7 @@ const LinkButton: FC<LinkButtonProps> = ({ children, className = "", ...rest }) 
   return (
     <Link
       {...rest}
-      className={`p-4 bg-blue-600 rounded-md text-white ${className}`}
+      className={`px-4 py-2 bg-blue-600 rounded-md text-white ${className}`}
     >
       {children}
     </Link>
