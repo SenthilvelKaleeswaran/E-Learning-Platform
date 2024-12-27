@@ -60,7 +60,6 @@ export default function CourseCard({ data, showCompleted }: any) {
                           status: "COMPLETED",
                         });
                       }}
-                      className="z-50"
                       disabled={updateRequested === item?.myCourseId}
                     >
                       Completed

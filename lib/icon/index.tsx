@@ -9,16 +9,22 @@ import { FaRegFile } from "react-icons/fa6";
 import { IoIosArrowUp } from "react-icons/io";
 import { LuCalendarDays } from "react-icons/lu";
 import { FaChevronLeft } from "react-icons/fa";
+import { AiOutlineMenu } from "react-icons/ai";
 import { FaCheck } from "react-icons/fa";
+import { IoClose } from "react-icons/io5";
+import { LuBookA } from "react-icons/lu";
 const iconMap = {
   ArrowLeft : FaChevronLeft,
   ArrowUp: IoIosArrowUp,
   ArrowDown : IoIosArrowDown,
+  Book :LuBookA,
   Calendar : LuCalendarDays,
+  Close : IoClose,
   Dashboard : LuLayoutDashboard,
   File : FaRegFile,
   Logo,
   LogOut: IoLogOutOutline,
+  Menu : AiOutlineMenu,
   Module,
   Tick :FaCheck,
   User: FaRegUser,

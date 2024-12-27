@@ -9,8 +9,8 @@ const Sidebar = () => {
   const pathname = usePathname();
   const currentPath = pathname.split("/").pop();
   return (
-    <div className="p-2 border-r border-gray-300 ">
-      <div className="space-y-4 w-48">
+    <div className="p-2 border-r border-gray-300 w-full h-full ">
+      <div className="space-y-4 w-full">
         {MenuList?.map((item: any) => {
           const isActivePath = currentPath === item?.id;
           return (

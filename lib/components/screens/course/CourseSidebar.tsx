@@ -3,7 +3,7 @@
 import React from "react";
 import { Accordion, AccordionItem, Button } from "@/lib/components/ui";
 import { Icon } from "@/lib/icon";
-import { RenderSpace } from "../../shared";
+import { BackButton, RenderSpace } from "../../shared";
 import { useRouter } from "next/navigation";
 
 interface TopicListProps {
@@ -67,15 +67,9 @@ export default function CourseSidebar({
   const router = useRouter();
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="flex gap-2 items-center flex-shrink-0 p-4">
-        <div
-          className="cursor-pointer rounded-full hover:bg-gray-300 p-1"
-          onClick={() => router.back()}
-        >
-          <Icon name="ArrowLeft" className="w-3 h-3" />
-        </div>
-
+    <div className="flex flex-col h-[calc(100vh-66px)] overflow-y-auto">
+      <div className="md:flex gap-2 items-center flex-shrink-0 p-4 hidden ">
+        <BackButton />
         <span className="font-semibold">Course Content</span>
       </div>
 
