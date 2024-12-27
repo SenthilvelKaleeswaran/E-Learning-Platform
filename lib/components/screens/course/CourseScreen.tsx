@@ -25,12 +25,15 @@ interface CourseScreenProps {
 export default function CourseScreen({ data }: CourseScreenProps) {
   const initialTopic = useMemo(() => {
     return data?.course?.chapters?.[0]?.topics?.[0] || {};
-  }, []);
-  
+  }, [data?.course?.chapters]);
+
   const [currentTopic, setCurrentTopic] = useState<any>({});
 
-  const completedTopics =
-    data?.myCourse?.completedTopics?.map((item: any) => item?.topicId) || [];
+  const completedTopics = useMemo(() => {
+    return (
+      data?.myCourse?.completedTopics?.map((item: any) => item?.topicId) || []
+    );
+  }, [data?.myCourse?.completedTopics]);
 
   const totalTopics = calculateTotalTopics(data?.course?.chapters);
 
@@ -61,7 +64,7 @@ export default function CourseScreen({ data }: CourseScreenProps) {
 
       setCurrentTopic(selectedTopic);
     },
-    []
+    [completedTopics, data?.myCourse?.completedTopics]
   );
 
   useEffect(() => {

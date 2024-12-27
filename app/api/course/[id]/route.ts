@@ -3,10 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function GET(request: NextRequest, { params }: any) {
   try {
     const { id } = await params;
 
@@ -14,7 +11,7 @@ export async function GET(
       return NextResponse.json({ error: "No Id found" }, { status: 400 });
     }
 
-    const userId = request.headers.get("x-loc-user")
+    const userId = request.headers.get("x-loc-user");
 
     if (!userId) {
       return NextResponse.json({ error: "Not Authorized" }, { status: 400 });
