@@ -1,5 +1,5 @@
 import accessPage from "@/lib/auth/access-page";
-import { CourseScreen } from "@/lib/components/screens";
+import { CourseErrorContainer, CourseScreen } from "@/lib/components/screens";
 import { getCourse } from "@/lib/utils/api-call";
 
 export default async function Course({ params, searchParams }: any) {
@@ -7,6 +7,8 @@ export default async function Course({ params, searchParams }: any) {
   const courseId = await searchParams;
 
   const data = await getCourse(courseId?.id);
+
+  if (data?.error) return <CourseErrorContainer error={data?.error} />;
 
   return <CourseScreen data={data} />;
 }
