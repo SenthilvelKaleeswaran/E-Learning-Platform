@@ -23,7 +23,7 @@ const Input: FC<InputProps> = ({
 
       <input
         id={id}
-        className={` p-2 rounded-sm border border-gray-400 bg-white `}
+        className={` p-2 rounded-sm border border-gray-400 bg-white ${inputClassName} `}
         {...rest}
 
       />

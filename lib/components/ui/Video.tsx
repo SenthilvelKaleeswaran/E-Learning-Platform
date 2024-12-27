@@ -4,8 +4,6 @@ import React from "react";
 export const Video: React.FC<VideoProps> = ({
   src,
   type = "video/mp4",
-  width = 30,
-  height = 20,
   controls = true,
   preload = "none",
   captions,

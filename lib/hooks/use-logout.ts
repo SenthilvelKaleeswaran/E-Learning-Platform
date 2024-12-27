@@ -25,7 +25,7 @@ const useLogout = (setIsLoggingOut: any) => {
       }
       setIsLoggingOut(false);
     },
-    onError: (error: any) => {
+    onError: () => {
       toast.error("Logout Failed !",{id : "logout"});
       setIsLoggingOut(false);
     },

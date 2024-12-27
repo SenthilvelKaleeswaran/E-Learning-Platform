@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import authOptions from "./auth-options";
 
 export default async function accessPage() {
-  const session: any = await getServerSession(authOptions as any);
+  const session: any = await getServerSession(authOptions);
 
   if (!session || !session?.user || !session?.user?.email) {
     redirect("/login");
