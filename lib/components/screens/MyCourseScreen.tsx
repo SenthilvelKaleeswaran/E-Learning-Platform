@@ -37,12 +37,12 @@ export default function MyCourseScreen({ courses, params }: any) {
   };
 
   const getEdgecaseCard = () => {
-    let topic = "";
+    let title = "";
     let description = "";
     let children;
 
     if (status === "All") {
-      topic = "No Courses Enrolled Yet!";
+      title = "No Courses Enrolled Yet!";
       description =
         "It looks like you haven't enrolled in any courses yet. Take your first step towards learning by exploring our available courses.";
       children = (
@@ -54,14 +54,14 @@ export default function MyCourseScreen({ courses, params }: any) {
         </Button>
       );
     } else if (status === "COMPLETED") {
-      topic = "No Courses Completed Yet!";
+      title = "No Courses Completed Yet!";
       description =
         "You haven't completed any courses yet. Get started and complete your first course to level up your skills!";
     }
 
     return (
       <EdgecaseContainer
-        topic={topic}
+      title={title}
         description={description}
         children={children}
       />
