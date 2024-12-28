@@ -14,32 +14,32 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      <header className=" p-4">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
+      <header className="p-2">
+        <div className="max-w-7xl flex justify-between items-center">
           <Logo />
-        </div>
-      </header>
-
-      <section className="flex-1 flex items-center justify-center bg-gradient-to-b from-blue-500 to-blue-900 text-white">
-        <div className="text-center p-8 space-y-6 max-w-2xl">
-          <h2 className="text-4xl font-bold">
-            Empower Your Learning Journey
-          </h2>
-          <p className="text-lg">
-            Join with us for improving your skills and knowledge with our courses.
-          </p>
-          <div className="space-x-4">
-            <div className="space-x-4">
-              <LinkButton
-                href="/login"
-                className="px-6 py-3 bg-white text-blue-800 font-semibold rounded-md"
-              >
+          <div className="flex gap-4">
+              <LinkButton href="/login" className="px-6 py-3">
                 Login
               </LinkButton>
               <LinkButton href="/register" className="px-6 py-3">
                 Register
               </LinkButton>
             </div>
+        </div>
+      </header>
+
+      <section className="flex-1 flex items-center justify-center bg-gradient-to-b from-blue-500 to-blue-900 text-white">
+        <div className="text-center p-8 space-y-6 max-w-2xl">
+        <h2 className="text-4xl font-bold">
+              Empower Your Learning Journey
+            </h2>
+            
+          <p className="text-lg">
+            Join with us for improving your skills and knowledge with our
+            courses.
+          </p>
+          <div className="space-x-4">
+            <div className="space-x-4"></div>
           </div>
         </div>
       </section>
