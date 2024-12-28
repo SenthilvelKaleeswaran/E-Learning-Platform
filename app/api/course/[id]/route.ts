@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
+import { ObjectId } from "mongodb";
 
 const prisma = new PrismaClient();
 
@@ -7,8 +8,8 @@ export async function GET(request: NextRequest, { params }: any) {
   try {
     const { id } = await params;
 
-    if (!id) {
-      return NextResponse.json({ error: "No Id found" }, { status: 400 });
+    if (!id || !ObjectId.isValid(id)) {
+      return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }
 
     const userId = request.headers.get("x-loc-user");

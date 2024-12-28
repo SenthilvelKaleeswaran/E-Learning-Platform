@@ -4,6 +4,7 @@ import React from "react";
 import { Accordion, AccordionItem, Button } from "@/lib/components/ui";
 import { Icon } from "@/lib/icon";
 import { BackButton, RenderSpace } from "../../shared";
+import { useRouter } from "next/navigation";
 
 interface TopicListProps {
   topics: any[];
@@ -62,7 +63,9 @@ export default function CourseSidebar({
   disabled,
   ...rest
 }: CourseSidebarProps) {
+  const router = useRouter();
   const chapters = data?.course?.chapters || [];
+  console.log({data})
 
   return (
     <div className="flex flex-col h-[calc(100vh-66px)] overflow-y-auto">
@@ -88,8 +91,17 @@ export default function CourseSidebar({
           ))}
         </Accordion>
       </div>
-      <div className="p-4 flex-shrink-0 border-t">
-        {!data?.myCourse ? (
+      <div className="p-4 flex-shrink-0 border-t space-y-2 ">
+        <RenderSpace condition={data?.course?.userId}>
+          <Button
+            onClick={() => router.push(`/create/${data?.course?.id}`)}
+            disabled={disabled}
+            className="w-full bg-gray-800  border border-gray-400 text-gray-600"
+          >
+            Edit Course
+          </Button>
+        </RenderSpace>
+        {!data?.myCourse && !data?.course?.userId  ? (
           <Button
             onClick={() => handleAddToMyCourse(data?.course?.id)}
             disabled={disabled}
@@ -97,7 +109,7 @@ export default function CourseSidebar({
           >
             Move to My Course
           </Button>
-        ) : data?.myCourse?.status !== "COMPLETED" ? (
+        ) : data?.myCourse?.status !== "COMPLETED"  ? (
           <Button
             disabled={disabled}
             onClick={() => handleCourseCompletion()}

@@ -1,10 +1,29 @@
 "use client";
 import React, { useEffect, useMemo, useState } from "react";
-import { PageHeader, RenderSpace } from "@/lib/components/shared";
-import { Button, Input, Tab, TabList, Tabs } from "@/lib/components/ui";
+import {
+  DeleteButton,
+  EditButton,
+  PageHeader,
+  RenderSpace,
+  VideoThumbnail,
+} from "@/lib/components/shared";
+import {
+  Accordion,
+  AccordionItem,
+  Button,
+  Drawer,
+  Input,
+  Tab,
+  TabList,
+  Tabs,
+} from "@/lib/components/ui";
 import { useCreateCourse } from "@/lib/hooks";
+import ChaptersList from "./ChaptersList";
+import CourseDetailsCard from "./CourseDetailsCard";
+import ChapterCard from "./ChapterCard";
+import { useRouter } from "next/navigation";
+import TopicsCard from "./TopicsCard";
 
-// Define the types for the course, chapters, and topics
 interface Topic {
   id?: string;
   name: string;
@@ -27,18 +46,10 @@ interface Course {
 }
 
 const CreateCourse: React.FC = ({ courseDetails }: any) => {
+  const router = useRouter();
   const [course, setCourse] = useState<Course>(courseDetails);
 
   const courseId = courseDetails?.id || null;
-
-  // const getCurrentChapter = useMemo(()=>{
-  //   return courseDetails?.chapters?.find(
-  //     (item: any) => item?.isCurrent
-  //   ) || {
-  //     name: "",
-  //     topics: [],
-  //   };
-  // },[courseDetails?.chapters])
 
   const [newChapter, setNewChapter] = useState<Chapter>({
     name: "",
@@ -51,6 +62,15 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
     prevChapter: {},
     prevTopic: {},
   });
+
+  const [newTopic, setNewTopic] = useState<Topic>({
+    id: "",
+    name: "",
+    description: "",
+    link: "",
+  });
+
+  const [showTopicForm, setShowTopicForm] = useState(false);
 
   useEffect(() => {
     const getCurrentChapter = courseDetails?.chapters?.find(
@@ -67,19 +87,6 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
     }));
   }, [courseDetails?.chapters]);
 
-  console.log({ newChapter });
-
-  const [newTopic, setNewTopic] = useState<Topic>({
-    id: "",
-    name: "",
-    description: "",
-    link: "",
-  });
-
-  console.log({ course, newChapter, newTopic });
-
-  const [showTopicForm, setShowTopicForm] = useState(false);
-
   const chapterList = courseDetails?.chapters;
 
   const handleToggleTopic = (show: boolean) => {
@@ -90,8 +97,6 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
       link: "",
     });
   };
-
-  console.log({ showTopicForm });
 
   const handleEditCurrentTopic = (index: any, topics: any) => {
     const data = topics[index];
@@ -136,15 +141,18 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
     createChapter,
     deleteChapter,
     updateChapter,
+    updateCourse,
     createTopic,
     updateTopic,
     deleteTopic,
+
     isChapterCreating,
     isChapterDeleting,
     isChapterUpdating,
     isTopicCreating,
     isTopicDeleting,
     isTopicUpdating,
+    isCourseUpdating,
   } = useCreateCourse();
 
   const editPanelButton = () => {
@@ -219,7 +227,8 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
     );
   };
 
-  const handleSubmitEdited = () => {
+  const handleSubmitEdited = (e: any) => {
+    e.stopPropagation();
     const data: any = {};
     if (newChapter?.name !== (editMode as any)?.prevChapter?.name) {
       data.name = newChapter?.name;
@@ -248,7 +257,8 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
     newChapter?.name !== (editMode as any)?.prevChapter?.name;
   console.log({ isChpterChanged, newChapter, prev: editMode, isEdited });
 
-  const handleEditCancelChapter = () => {
+  const handleEditCancelChapter = (e: any) => {
+    e.stopPropagation();
     if (isEdited) {
       setNewChapter((editMode as any)?.prevChapter);
     } else {
@@ -290,101 +300,50 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
     <div className="bg-gray-50 min-h-screen space-y-4">
       <div className="flex justify-between">
         <PageHeader title="Create Course" />
-        <Button onClick={() => {}}>Create</Button>
-      </div>
-      <div>
-        <div className="flex gap-4 space-y-4 p-4 border bg-white border-gray-500 rounded-md">
-          <div className="space-y-4 w-full">
-            <Input
-              id="course-name"
-              type="text"
-              label="Course Name"
-              value={course.name}
-              onChange={(e) => setCourse({ ...course, name: e.target.value })}
-              placeholder="Enter course name"
-            />
-            <Input
-              id="image-url"
-              type="text"
-              label="Image URL"
-              value={course.imageUrl}
-              onChange={(e) =>
-                setCourse({ ...course, imageUrl: e.target.value })
-              }
-              placeholder="Enter image URL"
-            />
-          </div>
-          <RenderSpace condition={!!course.imageUrl}>
-            <img
-              src={course.imageUrl}
-              alt="Course Preview"
-              className="w-48 h-48 object-cover rounded-md border flex"
-            />
-          </RenderSpace>
-        </div>
-      </div>
-{/* 
-      <Tabs defaultTab={""} >
-        <TabList>
-          <Tab id="Add"></Tab>
-          <Tab id="COMPLETED">Finished</Tab>
-        </TabList>
-      </Tabs> */}
-
-      <RenderSpace condition={true}>
-        <div className="mt-6 bg-white p-6 rounded-md shadow-md border border-black space-y-4">
-          <div className="flex gap-4 justify-between items-center">
-            <h3 className="text-lg font-semibold">
-              {/* {editMode?.chapter ? "Edit Chapter" : "Add Chapter"} */}
-              Chapter
-            </h3>
-            <div className="flex gap-2">
-              {newChapter?.id ? (
-                renderFinalChpterButton()
-              ) : (
-                <Button
-                  onClick={() =>
-                    createChapter({
-                      name: newChapter?.name,
-                      courseId,
-                    })
-                  }
-                  disabled={
-                    (!newChapter?.name?.trim() &&
-                      newChapter?.name?.length < 3) ||
-                    isChapterCreating
-                  }
-                >
-                  Create Chapter
-                </Button>
-              )}
-            </div>
-          </div>
-
-          <Input
-            id="chapter-name"
-            type="text"
-            label="Chapter Name"
-            value={newChapter?.name}
-            onChange={(e) =>
-              setNewChapter({ ...newChapter, name: e.target.value })
+        {(course as any)?.status === "COMPLETED" ? (
+          <Button
+            onClick={() => {
+              router.push(`/course?id=${courseId}`);
+            }}
+          >
+            View Course
+          </Button>
+        ) : (
+          <Button
+            disabled={
+              !course?.name ||
+              course?.name?.trim()?.length < 3 ||
+              isCourseUpdating
             }
-            placeholder="Enter chapter name"
-          />
-          <RenderSpace condition={!!newChapter?.id}>
-            <Button
-              onClick={() => handleToggleTopic(true)}
-              disabled={!newChapter?.name?.trim() || isChapterUpdating}
-            >
-              Add Topic
-            </Button>
-          </RenderSpace>
-        </div>
-      </RenderSpace>
+            onClick={() => {
+              updateCourse({
+                id: courseId,
+                status: "COMPLETED",
+                name: course?.name,
+                imageUrl: course?.imageUrl,
+              });
+            }}
+          >
+            Create
+          </Button>
+        )}
+      </div>
+
+      <CourseDetailsCard course={course} setCourse={setCourse} />
+      <ChapterCard
+        newChapter={newChapter}
+        renderFinalChpterButton={renderFinalChpterButton}
+        createChapter={createChapter}
+        courseId={courseId}
+        isChapterCreating={isChapterCreating}
+        setNewChapter={setNewChapter}
+        handleToggleTopic={handleToggleTopic}
+        isChapterUpdating={isChapterUpdating}
+      />
 
       <RenderSpace condition={showTopicForm}>
-        <div className=" bg-gray-50 p-4 rounded-md border border-black space-y-4">
-          <h4 className="text-sm font-medium text-gray-800">
+        <div className=" p-4 rounded-md border border-gray-300 space-y-4">
+          <h4 className="font-medium text-gray-800">
             {editMode.topic ? "Edit Topic" : "Add Topic"}
           </h4>
           <Input
@@ -459,106 +418,36 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
 
       <RenderSpace condition={newChapter?.topics?.length}>
         <div className="mt-8">
-          <h3 className="text-lg font-semibold text-gray-700">Topics Added</h3>
-          {newChapter?.topics?.map((topic, index) => (
-            <div
-              key={index}
-              className="bg-white p-4 rounded-md shadow-md mt-2 flex justify-between items-center"
-            >
-              <div>
-                <p className="text-sm font-medium">{topic.name}</p>
-                <p className="text-xs text-gray-600">{topic.description}</p>
-              </div>
-              <div className="flex gap-4">
-                <Button
-                  onClick={() =>
-                    handleEditCurrentTopic(index, newChapter?.topics)
-                  }
-                >
-                  Edit
-                </Button>
-                <Button
-                  onClick={() => deleteTopic(topic?.id)}
-                  disabled={isTopicDeleting}
-                >
-                  Delete
-                </Button>
-              </div>
-            </div>
-          ))}
+          <h3 className="text-lg font-semibold text-gray-700 px-2">
+            Topics Added
+          </h3>
+          <TopicsCard
+            topics={newChapter?.topics}
+            handleDelete={(id: any) => deleteTopic(id)}
+            handleEdit={(index: any) =>
+              handleEditCurrentTopic(index, newChapter?.topics)
+            }
+            deleteLoading={isTopicDeleting}
+            editLoading={isTopicUpdating}
+          />
+          
         </div>
       </RenderSpace>
 
       <RenderSpace condition={chapterList?.length}>
-        <div className="mt-8">
-          <h3 className="text-xl font-semibold">Chapters:</h3>
-          {chapterList?.map((chapter: any, index: any) => (
-            <div key={index} className="bg-white p-4 rounded-md shadow-md mt-4">
-              <div className="flex justify-between items-center">
-                <h4 className="text-lg font-medium">{chapter.name}</h4>
-                {chapter?.id === newChapter?.id ? (
-                  <div className="flex gap-4 items-center">
-                    <p>On Edit Panel</p>
-                    {renderFinalChpterButton()}
-                  </div>
-                ) : (
-                  <div className="flex gap-4">
-                    <Button
-                      onClick={() => {
-                        updateChapter(
-                          { id: chapter?.id, isCurrent: true },
-                          { onSuccess: () => handleEditChapter(index) }
-                        );
-                      }}
-                    >
-                      Edit
-                    </Button>
-                    <Button onClick={() => deleteChapter(chapter?.id)}>
-                      Delete
-                    </Button>
-                  </div>
-                )}
-              </div>
-              <div className="mt-4">
-                <RenderSpace condition={chapter?.topics?.length}>
-                  <h5 className="text-md font-medium">Topics:</h5>
-                  {chapter.topics.map((topic: any, topicIndex: any) => (
-                    <div
-                      key={topicIndex}
-                      className="bg-gray-100 p-2 rounded-md mt-2 flex justify-between items-center"
-                    >
-                      <div>
-                        <p className="text-sm font-medium">{topic.name}</p>
-                        <p className="text-xs text-gray-600">
-                          {topic.description}
-                        </p>
-                      </div>
-                      <RenderSpace condition={chapter?.id !== newChapter?.id}>
-                        <div className="space-x-2">
-                          <Button
-                            onClick={() =>
-                              handleEditTopic(topicIndex, index, chapter?.id)
-                            }
-                          >
-                            Edit
-                          </Button>
-                          <Button
-                            onClick={() => deleteTopic(topic?.id)}
-                            disabled={
-                              isTopicDeleting || chapter?.topics?.length === 1
-                            }
-                          >
-                            Delete
-                          </Button>
-                        </div>
-                      </RenderSpace>
-                    </div>
-                  ))}
-                </RenderSpace>
-              </div>
-            </div>
-          ))}
-        </div>
+        <ChaptersList
+          chapters={chapterList}
+          renderFinalChpterButton={renderFinalChpterButton}
+          newChapter={newChapter}
+          handleEditTopic={handleEditTopic}
+          deleteTopic={deleteTopic}
+          isTopicDeleting={isTopicDeleting}
+          deleteChapter={deleteChapter}
+          isChapterDeleting={isChapterDeleting}
+          updateChapter={updateChapter}
+          handleEditChapter={handleEditChapter}
+          isChapterUpdating={isChapterUpdating}
+        />
       </RenderSpace>
     </div>
   );

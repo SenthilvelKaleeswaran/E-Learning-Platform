@@ -6,15 +6,26 @@ const prisma = new PrismaClient();
 
 export async function GET(request: NextRequest) {
   try {
-   
-    const userId = request.headers.get("x-loc-user")
+    const userId = request.headers.get("x-loc-user");
 
     if (!userId) {
       return NextResponse.json({ error: "Not Authorized" }, { status: 400 });
     }
 
+    const { searchParams } = new URL(request.url);
+    const createdCourse = Boolean(searchParams.get("createdCourse")) || false;
+    console.log({createdCourse})
+    const condition = createdCourse
+      ? userId
+      : {
+          isSet: false,
+        };
+
     const [courses, myCourses] = await Promise.all([
       prisma.course.findMany({
+        where: {
+          userId: condition,
+        },
         include: {
           chapters: {
             include: {
@@ -28,10 +39,16 @@ export async function GET(request: NextRequest) {
       }),
     ]);
 
+    console.log({ courses });
+
     const myCoursesMap = new Map(
       myCourses.map((myCourse) => [
         myCourse.courseId,
-        {id : myCourse?.id , length : myCourse?.completedTopics?.length ?? 0,status : myCourse?.status},
+        {
+          id: myCourse?.id,
+          length: myCourse?.completedTopics?.length ?? 0,
+          status: myCourse?.status,
+        },
       ])
     );
 
@@ -52,3 +69,5 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
+

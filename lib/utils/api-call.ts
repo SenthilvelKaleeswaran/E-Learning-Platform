@@ -1,4 +1,4 @@
-"use server"
+"use server";
 import axios from "axios";
 import { cookies } from "next/headers";
 
@@ -19,7 +19,7 @@ async function fetchApi({
     url,
     headers: {
       "Content-Type": "application/json",
-      Cookie: (await cookies()).toString()
+      Cookie: (await cookies()).toString(),
     },
     data,
   };
@@ -44,8 +44,8 @@ export const registerUser = async (data: {
   });
 };
 
-export const getAllCourses = async () => {
-  return await fetchApi({ endpoint: "/course" });
+export const getAllCourses = async (params : string = '') => {
+  return await fetchApi({ endpoint: `/course?${params}` });
 };
 
 export const getCourse = async (id: string) => {
@@ -68,4 +68,74 @@ export const addToMyCourse = async (id: string) => {
 
 export const updateMyCourse = async (data: any) => {
   return await fetchApi({ endpoint: `/my-course`, method: "PATCH", data });
+};
+
+export const createCustomCourse = async () => {
+  return await fetchApi({
+    endpoint: `/course/custom-course`,
+    method: "POST",
+    data: { pp: "ppp" },
+  });
+};
+
+export const updateCourse = async (data: any) => {
+  return await fetchApi({
+    endpoint: `/course/custom-course`,
+    method: "PATCH",
+    data,
+  });
+};
+
+export const deleteCourse = async (id: any) => {
+  return await fetchApi({ endpoint: `/course/custom-course?id=${id}`,method : "DELETE" });
+};
+
+export const createChapter = async (data: any) => {
+  return await fetchApi({
+    endpoint: `/chapter/custom-course`,
+    method: "POST",
+    data,
+  });
+};
+
+export const updateChapter = async (data: any) => {
+  return await fetchApi({
+    endpoint: `/chapter/custom-course`,
+    method: "PATCH",
+    data,
+  });
+};
+
+export const deleteChapter = async (id: any) => {
+  return await fetchApi({
+    endpoint: `/chapter/custom-course?id=${id}`,
+    method: "DELETE",
+  });
+};
+
+export const createTopic = async (data: any) => {
+  return await fetchApi({
+    endpoint: `/topic/custom-course`,
+    method: "POST",
+    data,
+  });
+};
+
+export const updateTopic = async (data: any) => {
+  return await fetchApi({
+    endpoint: `/topic/custom-course`,
+    method: "PATCH",
+    data,
+  });
+};
+
+export const deleteTopic = async (id: any) => {
+  return await fetchApi({
+    endpoint: `/topic/custom-course?id=${id}`,
+    method: "DELETE",
+  });
+};
+
+export const getCreatedCourses = async () => {
+  return await fetchApi({ endpoint: "/course?createdCourse=true" });
 };

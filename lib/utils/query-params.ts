@@ -3,20 +3,22 @@ export const queryParams = ({
   value,
   replace = false,
   deleteParam,
+  deleteKey = "",
   searchParams,
   pathName,
 }: {
   key: string;
-  value?: string;
+  value?: any;
   replace?: boolean;
   deleteParam?: boolean;
   searchParams: any;
   pathName: any;
+  deleteKey? : any
 }) => {
 
   const params = new URLSearchParams(searchParams.toString());
 
-  if (replace || deleteParam) params.delete(key);
+  if (replace || deleteParam) params.delete(deleteKey || key);
 
   if (value) params.set(key, value);
 

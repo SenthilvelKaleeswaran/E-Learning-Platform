@@ -7,7 +7,7 @@ import { getAllCourses } from "@/lib/utils/api-call";
 export default async function Register() {
   await accessPage();
 
-  const courses = await getAllCourses();
+  const courses = await getAllCourses('createdCourse=true');
 
   if (courses?.courses?.length === 0) {
     return (
@@ -24,5 +24,7 @@ export default async function Register() {
     );
   }
 
-  return <CourseLibrary courses={courses?.courses} />;
+  console.log({courses})
+
+  return <CourseLibrary courses={courses?.courses} showOptions={true} />;
 }

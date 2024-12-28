@@ -12,23 +12,28 @@ model User {
   email    String     @unique
   password String
   name     String?
-  MyCourse MyCourse[]
+  myCourse MyCourse[]
+  course   Course[]
 }
 
 model Course {
-  id       String     @id @default(auto()) @map("_id") @db.ObjectId
-  name     String
+  id       String          @id @default(auto()) @map("_id") @db.ObjectId
+  name     String?
   imageUrl String?
-  chapters Chapter[]  @relation("CourseChapters")
+  userId   String?         @db.ObjectId
+  user     User?           @relation(fields: [userId], references: [id])
+  status   CreationStatus?
+  chapters Chapter[]       @relation("CourseChapters")
   MyCourse MyCourse[]
 }
 
 model Chapter {
-  id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  name     String?
-  courseId String  @db.ObjectId
-  course   Course  @relation("CourseChapters", fields: [courseId], references: [id])
-  topics   Topic[]
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String?
+  courseId  String   @db.ObjectId
+  course    Course   @relation("CourseChapters", fields: [courseId], references: [id])
+  isCurrent Boolean? @default(true)
+  topics    Topic[]
 }
 
 model Topic {
@@ -59,4 +64,9 @@ enum Status {
   COMPLETED
   IN_PROGRESS
   NOT_STARTED
+}
+
+enum CreationStatus {
+  IN_PROGRESS
+  COMPLETED
 }

@@ -32,13 +32,23 @@ const AccordionItem = ({
   title,
   description,
   children,
+  className,
+  renderProp,
+  renderPropStyle,
+  isActive,
+  isHighlight = true,
 }: {
   title: string;
   description?: string;
   children: ReactNode;
+  className?: string;
+  renderProp?: ReactNode;
+  renderPropStyle?: string;
+  isActive?: boolean;
+  isHighlight?: boolean;
 }) => {
   const { allowMultiple } = useAccordionContext();
-  const [isActive, setIsActive] = useState(false);
+  const [isItemActive, setIsActive] = useState(isActive || false);
 
   const handleToggle = () => {
     if (!allowMultiple) setIsActive(!isActive);
@@ -48,25 +58,27 @@ const AccordionItem = ({
   return (
     <div className="border">
       <div
-        className={`flex gap-4 justify-between items-center cursor-pointer py-2 px-4  ${
-          isActive ? "bg-gray-200 text-blue-500" : ""
-        }`}
+        className={`flex gap-4 w-full justify-between cursor-pointer py-2 px-4 ${
+          isActive ? `bg-gray-200 ${isHighlight ? "text-blue-500" : ""} ` : ""
+        } ${className}`}
         onClick={handleToggle}
       >
-        <div>
-          <div className="font-semibold">{title}</div>
+        <div className="w-full" >
+          <div className="font-semibold  overflow-hidden whitespace-nowrap text-ellipsis">{title}</div>
           {description && (
-            <div className={`text-sm ${isActive ? "" : "text-gray-600"} mt-1`}>
+            <div className={`text-sm overflow-hidden whitespace-nowrap text-ellipsis ${isActive ? "" : "text-gray-600"}  mt-1`}>
               {description}
             </div>
           )}
         </div>
-
-        <Icon name={isActive ? "ArrowUp" : "ArrowDown"} />
+        <div className={`flex gap-2 items-center  justify-end w-full ${renderPropStyle}`}>
+          {renderProp ? renderProp : null}
+          <Icon name={isActive ? "ArrowUp" : "ArrowDown"} />
+        </div>
       </div>
 
-      {isActive && (
-        <div className=" bg-gray-100 p-4 border-t">
+      {isItemActive && (
+        <div className="bg-gray-50 p-4 border drop-shadow-md rounded-md">
           {children}
         </div>
       )}

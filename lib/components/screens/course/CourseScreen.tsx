@@ -128,6 +128,7 @@ export default function CourseScreen({ data }: CourseScreenProps) {
   };
 
   const renderStatusButton = () => {
+    console.log({isTopicCompleted})
     if (isTopicCompleted) {
       return (
         <div className="space-y-2">
@@ -146,8 +147,9 @@ export default function CourseScreen({ data }: CourseScreenProps) {
         </div>
       );
     } else {
+      console.log("isTopicCompleted")
       return (
-        <RenderSpace condition={data?.myCourse && currentTopic?.id}>
+        <RenderSpace condition={data?.myCourse && currentTopic?.id || data?.course?.userId}>
           <Button disabled={isDisabled()} onClick={handleUpdateTopic}>
             Completed
           </Button>

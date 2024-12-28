@@ -29,10 +29,15 @@ export default function MyCourseScreen({ courses, params }: any) {
   });
 
   const handleTabChange = (id: string) => {
+    const props = { searchParams, pathName };
     let newPath = "";
-    const props = { key: "status", searchParams, pathName };
-    if (id === "All") newPath = queryParams({ deleteParam: true, ...props });
-    else newPath = queryParams({ value: id, ...props });
+
+    if (id === "All") {
+      newPath = queryParams({ deleteParam: true, key: "status", ...props });
+    } else {
+      newPath = queryParams({ key: "status", value: id, ...props });
+    }
+
     router.push(newPath);
   };
 
@@ -42,25 +47,61 @@ export default function MyCourseScreen({ courses, params }: any) {
     let children;
 
     if (status === "All") {
+      title = "No Courses Created / Enrolled Yet!";
+      description =
+        "It looks like you haven't enrolled in any courses yet. Take your first step towards learning by exploring our available courses.";
+      children = (
+        <div className="flex flex-col md:flex-row justify-center gap-4">
+          <Button
+            onClick={() => router.push("/course-library")}
+            className="w-fit px-4"
+          >
+            Explore Courses
+          </Button>
+          <Button
+            onClick={() => router.push("/create")}
+            className="w-fit px-4 place-content-center"
+          >
+            Create Course
+          </Button>
+        </div>
+      );
+    } else if (status === "ENROLLED") {
       title = "No Courses Enrolled Yet!";
       description =
         "It looks like you haven't enrolled in any courses yet. Take your first step towards learning by exploring our available courses.";
       children = (
-        <Button
-          onClick={() => router.push("/course-library")}
-          className="w-fit px-4"
-        >
-          Explore Courses
-        </Button>
+        <div className="flex justify-center">
+          <Button
+            onClick={() => router.push("/course-library")}
+            className="w-fit px-4"
+          >
+            Explore Courses
+          </Button>
+        </div>
       );
     } else if (status === "COMPLETED") {
       title = "No Courses Completed Yet!";
       description =
         "You haven't completed any courses yet. Get started and complete your first course to level up your skills!";
+    } else if (status === "MYCOURSES") {
+      title = "No Courses Created Yet!";
+      description =
+        "Planning to organizing the course. Create a course now itself";
+      children = (
+        <div className="flex justify-center">
+          <Button
+            onClick={() => router.push("/create")}
+            className="w-fit px-4 place-content-center"
+          >
+            Create Course
+          </Button>
+        </div>
+      );
     }
 
     return (
-      <EdgecaseContainer title={title} description={description}>
+      <EdgecaseContainer title={title} description={description} type={"dark"}>
         {children}
       </EdgecaseContainer>
     );
@@ -72,6 +113,8 @@ export default function MyCourseScreen({ courses, params }: any) {
       <Tabs defaultTab={status} onTabChange={handleTabChange}>
         <TabList>
           <Tab id="All">All</Tab>
+          <Tab id="ENROLLED">Enrolled Courses</Tab>
+          <Tab id="MYCOURSES">My Courses</Tab>
           <Tab id="COMPLETED">Finished</Tab>
         </TabList>
       </Tabs>
