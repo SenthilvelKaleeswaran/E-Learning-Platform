@@ -10,5 +10,7 @@ export default async function Course({ searchParams }: any) {
 
   if (data?.error) return <CourseErrorContainer error={data?.error} />;
 
+  console.log({data})
+
   return <CourseScreen data={data} />;
 }

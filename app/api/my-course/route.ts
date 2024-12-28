@@ -4,13 +4,50 @@ import type { NextRequest } from "next/server";
 
 const prisma = new PrismaClient();
 
-export async function GET(req :NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-
-    const userId = req.headers.get("x-loc-user")
+    const userId = req.headers.get("x-loc-user");
 
     const url = new URL(req.url);
     const filter = JSON.parse(url.searchParams.get("filter") || "") || {};
+
+    if (Object.keys(filter)?.length) {
+      const allowedKeys = ["status"];
+
+      const invalidKeys = Object.keys(filter).filter(
+        (key) => !allowedKeys.includes(key)
+      );
+
+      if (invalidKeys.length > 0) {
+        return NextResponse.json({ error: `Invalid filter` }, { status: 400 });
+      }
+
+      const validStatuses = ["COMPLETED", "ENROLLED", "MYCOURSES"];
+
+      if (!validStatuses.includes(filter.status)) {
+        return NextResponse.json(
+          { error: `Invalid filters` },
+          { status: 400 }
+        );
+      }
+
+
+      if(filter.status === "ENROLLED"){
+        filter.course = { userId: { isSet: false } }
+        delete filter.status;
+
+      }
+      else if(filter.status === "MYCOURSES"){
+        filter.course ={ userId, status: "COMPLETED" };
+        delete filter.status;
+
+      }
+
+
+     
+    }
+
+    console.log({ filter });
 
     const courses = await prisma.myCourse.findMany({
       where: { userId, ...filter },
@@ -30,7 +67,6 @@ export async function GET(req :NextRequest) {
     return NextResponse.json({ courses });
   } catch (error) {
     console.error(error);
-
     return NextResponse.json(
       { error: "Failed to get all courses. Please try again !" },
       { status: 500 }
@@ -40,7 +76,7 @@ export async function GET(req :NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const userId = request.headers.get("x-loc-user")
+    const userId = request.headers.get("x-loc-user");
 
     if (!userId) {
       return NextResponse.json({ error: "Not Authorized" }, { status: 401 });
@@ -90,8 +126,7 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-
-    const userId = request.headers.get("x-loc-user")
+    const userId = request.headers.get("x-loc-user");
 
     if (!userId) {
       return NextResponse.json({ error: "Not Authorized" }, { status: 400 });
@@ -103,7 +138,6 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: "No Id found" }, { status: 400 });
     }
 
-    
     if (!rest) {
       return NextResponse.json({ error: "No data provided" }, { status: 400 });
     }
@@ -124,7 +158,6 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ message: "Course successfully updated" });
   } catch (error) {
     console.log("Error during PATCH operation:", error);
-
     return NextResponse.json(
       { error: "Failed to update the course. Please try again later." },
       { status: 500 }

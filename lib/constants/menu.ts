@@ -9,4 +9,9 @@ export const MenuList = [
     icon: "File",
     name: "My Course",
   },
+  {
+    id: "created-course",
+    icon: "File",
+    name: "Created Courses",
+  },
 ];

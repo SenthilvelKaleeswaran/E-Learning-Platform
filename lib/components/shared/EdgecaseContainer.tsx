@@ -9,7 +9,7 @@ export default function EdgecaseContainer({
   children,
 }: EdgecaseContainerProps) {
   const outlineColor =
-    type === "error" ? "outline-red-500" : "outline-blue-500";
+    type === "error" ? "outline-red-500" :  type === "dark" ?  "outline-gray-500" : "outline-blue-500";
 
   return (
     <div
@@ -20,7 +20,7 @@ export default function EdgecaseContainer({
         <p className="text-base text-gray-600 text-center">{description}</p>
       </div>
 
-      {children ? <div className="place-content-center">{children}</div> : null}
+      {children ? <div className="place-content-center w-full">{children}</div> : null}
     </div>
   );
 }

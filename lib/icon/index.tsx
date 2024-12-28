@@ -15,7 +15,14 @@ import { IoClose } from "react-icons/io5";
 import { LuBookA } from "react-icons/lu";
 import { PiCatFill } from "react-icons/pi";
 import { IoPaw } from "react-icons/io5";
+import { CgAddR } from "react-icons/cg";
+import { FaPen } from "react-icons/fa";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { IoEyeOutline } from "react-icons/io5";
+import { LuLoader } from "react-icons/lu";
+import { FaEllipsisVertical } from "react-icons/fa6";
 const iconMap = {
+  Add : CgAddR,
   ArrowLeft : FaChevronLeft,
   ArrowUp: IoIosArrowUp,
   ArrowDown : IoIosArrowDown,
@@ -23,14 +30,19 @@ const iconMap = {
   Calendar : LuCalendarDays,
   Close : IoClose,
   Dashboard : LuLayoutDashboard,
+  Edit : FaPen,
   File : FaRegFile,
+  Loading :LuLoader,
   Logo  :PiCatFill,
   LogoTail : IoPaw,
   LogOut: IoLogOutOutline,
   Menu : AiOutlineMenu,
   Module,
+  Options : FaEllipsisVertical,
   Tick :FaCheck,
+  Trash :FaRegTrashCan,
   User: FaRegUser,
+  View : IoEyeOutline
 } as const;
 
 type IconName = keyof typeof iconMap;
