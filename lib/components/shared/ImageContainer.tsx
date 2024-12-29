@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PreviewFallback from "@/public/no-preview.png";
 import NoImageFallback from "@/public/no-image.jpg";
 
@@ -11,6 +11,8 @@ export default function ImageContainer({ className, src, ...rest }: any) {
   const handleImageError = () => {
     setImageSrc(PreviewFallback);
   };
+
+  useEffect(()=>{setImageSrc(src)},[src])
 
   return (
     <Image

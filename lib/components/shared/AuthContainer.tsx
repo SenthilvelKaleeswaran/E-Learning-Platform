@@ -3,6 +3,7 @@ import { Button, Input } from "@/lib/components/ui";
 import { useLogin, useRegister } from "@/lib/hooks";
 import { FormEvent } from "react";
 import Logo from "./Logo";
+import { useRouter } from "next/navigation";
 
 const AuthContainer = ({ title, description, fields, type }: any) => {
   const { mutate: onLogin ,isPending : isLoggingIn} = useLogin();
@@ -32,14 +33,28 @@ const AuthContainer = ({ title, description, fields, type }: any) => {
       </div>
       <form onSubmit={handleSubmit} className="space-y-4">
         {fields?.map((item: any) => (
-          <Input key={item?.id} {...item}  />
+          <Input key={item?.id} {...item} />
         ))}
         <div>
-          <Button type="submit" className="w-full" disabled={isLoggingIn || isRegistering}>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isLoggingIn || isRegistering}
+          >
             {type === "login" ? "Log In" : "Sign Up"}
           </Button>
         </div>
       </form>
+      <p className="text-gray-400 text-sm text-center">
+        Move to{" "}
+        <span
+          className="text-blue-500 underline cursor-pointer"
+          onClick={() => router.push(type === "login" ? "/register" : "/login")}
+        >
+          {type == "login" ? "Sign up" : "Sign in"}
+        </span>{" "}
+        page
+      </p>
     </div>
   );
 };

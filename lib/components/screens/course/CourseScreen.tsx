@@ -149,7 +149,7 @@ export default function CourseScreen({ data }: CourseScreenProps) {
     } else {
       console.log("isTopicCompleted")
       return (
-        <RenderSpace condition={data?.myCourse && currentTopic?.id || data?.course?.userId}>
+        <RenderSpace condition={data?.myCourse && currentTopic?.id || data?.course?.userId && data?.course?.status === "COMPLETED"}>
           <Button disabled={isDisabled()} onClick={handleUpdateTopic}>
             Completed
           </Button>

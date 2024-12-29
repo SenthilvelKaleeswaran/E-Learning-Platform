@@ -40,7 +40,7 @@ export default async function Home() {
           </p>
           <div className="space-x-4">
             <div className="space-x-4"></div>
-          </div>
+</div>
         </div>
       </section>
 

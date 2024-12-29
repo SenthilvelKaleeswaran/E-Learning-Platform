@@ -77,17 +77,19 @@ export default function CourseSidebar({
       <div className="flex-1 overflow-y-auto">
         <Accordion allowMultiple>
           {chapters.map((chapter: any) => (
-            <AccordionItem
-              key={chapter.id}
-              title={chapter.name}
-              description={chapter.description}
-            >
-              <TopicList
-                topics={chapter.topics}
-                currentTopic={currentTopic}
-                {...rest}
-              />
-            </AccordionItem>
+            <RenderSpace condition={chapter?.topics?.length}>
+              <AccordionItem
+                key={chapter.id}
+                title={chapter.name}
+                description={chapter.description}
+              >
+                <TopicList
+                  topics={chapter.topics}
+                  currentTopic={currentTopic}
+                  {...rest}
+                />
+              </AccordionItem>
+            </RenderSpace>
           ))}
         </Accordion>
       </div>
@@ -101,7 +103,7 @@ export default function CourseSidebar({
             Edit Course
           </Button>
         </RenderSpace>
-        {!data?.myCourse && !data?.course?.userId  ? (
+        {!data?.myCourse && !data?.course?.userId ? (
           <Button
             onClick={() => handleAddToMyCourse(data?.course?.id)}
             disabled={disabled}
@@ -109,13 +111,20 @@ export default function CourseSidebar({
           >
             Move to My Course
           </Button>
-        ) : data?.myCourse?.status !== "COMPLETED"  ? (
+        ) : (!data?.course?.userId && data?.myCourse?.status !== "COMPLETED") ||
+          (data?.course?.status === "COMPLETED" &&
+            data?.course?.userId &&
+            data?.myCourse?.status !== "COMPLETED") ? (
           <Button
             disabled={disabled}
             onClick={() => handleCourseCompletion()}
             className="w-full"
           >
             Mark Course as Completed
+          </Button>
+        ) : data?.course?.status !== "COMPLETED" && data?.course?.userId ? (
+          <Button disabled={true} className="w-full">
+            Course is on Creation Process
           </Button>
         ) : (
           <div className="">

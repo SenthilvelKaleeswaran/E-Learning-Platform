@@ -251,7 +251,7 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
           <Tab id="add-chapter">Add Chapter</Tab>
           {chapterList?.map((chapter: any, chapterIndex: number) => (
             <Tab key={chapterIndex} id={`chapter-${chapterIndex}`}>
-              Chapter {chapterIndex +1}
+              Chapter {chapterIndex + 1}
             </Tab>
           ))}
         </TabList>
@@ -259,20 +259,24 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
           <TabPanel id="add-chapter">
             <div className="mt-6 bg-white p-6 rounded-md shadow-md border border-black space-y-4">
               <div className="flex gap-4 justify-between items-center">
-                <h3 className="text-lg font-semibold">
-                  Chapter
-                </h3>
+                <h3 className="text-lg font-semibold">Chapter</h3>
                 <div className="flex gap-2">
                   {newChapter?.id ? (
                     renderFinalChapterButton()
                   ) : (
                     <Button
-                      onClick={() =>
-                        createChapter({
+                      onClick={() => {
+                        const data: any = {
                           name: newChapter?.name,
                           courseId: course?.id,
-                        })
-                      }
+                        };
+
+                        if ((course as any)?.status === "COMPLETED") {
+                          data.statusUpdate = true;
+                        }
+
+                        createChapter(data);
+                      }}
                       disabled={
                         (!newChapter?.name?.trim() &&
                           newChapter?.name?.length < 3) ||
@@ -305,106 +309,112 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
               </RenderSpace>
             </div>
           </TabPanel>
-           {chapterList?.map((chapter: any, chapterIndex: number) => (
+          {chapterList?.map((chapter: any, chapterIndex: number) => (
             <div>
               <div>
                 
               </div>
               <TabPanel key={chapterIndex} id={`chapter-${chapterIndex}`}>
-              <Tabs defaultTab="add-topic">
-                <TabList>
-                  <Tab id="add-topic">Add Topic</Tab>
-                  {chapter.topics?.map((topic: any, topicIndex: any) => (
-                    <Tab key={topicIndex} id={`topic-${topicIndex}`}>
-                      {topic.name}
-                    </Tab>
-                  ))}
-                </TabList>
-                <TabPanels>
-                  <TabPanel id="add-topic">
-                    <div className="bg-gray-50 p-4 rounded-md border border-black space-y-4">
-                      <Input
-                        id="topic-name"
-                        type="text"
-                        label="Topic Name"
-                        value={newTopic.name}
-                        onChange={(e) =>
-                          setNewTopic({ ...newTopic, name: e.target.value })
-                        }
-                        placeholder="Enter topic name"
-                      />
-                      <Input
-                        id="topic-description"
-                        type="text"
-                        label="Description"
-                        value={newTopic.description}
-                        onChange={(e) =>
-                          setNewTopic({
-                            ...newTopic,
-                            description: e.target.value,
-                          })
-                        }
-                        placeholder="Enter topic description"
-                      />
-                      <Input
-                        id="topic-link"
-                        type="text"
-                        label="Link"
-                        value={newTopic.link}
-                        onChange={(e) =>
-                          setNewTopic({ ...newTopic, link: e.target.value })
-                        }
-                        placeholder="Enter topic link"
-                      />
-                      <div className="flex gap-4">
-                        <Button
-                          onClick={() => {
-                            createTopic(
-                              { ...newTopic, chapterId: chapter.id },
-                              {
-                                onSuccess: () => handleToggleTopic(false),
-                              }
-                            );
-                          }}
-                          disabled={
-                            !newTopic.name.trim() ||
-                            !newTopic.description.trim() ||
-                            !newTopic.link.trim() ||
-                            isTopicCreating
+                <Tabs defaultTab="add-topic">
+                  <TabList>
+                    <Tab id="add-topic">Add Topic</Tab>
+                    {chapter.topics?.map((topic: any, topicIndex: any) => (
+                      <Tab key={topicIndex} id={`topic-${topicIndex}`}>
+                        {topic.name}
+                      </Tab>
+                    ))}
+                  </TabList>
+                  <TabPanels>
+                    <TabPanel id="add-topic">
+                      <div className="bg-gray-50 p-4 rounded-md border border-black space-y-4">
+                        <Input
+                          id="topic-name"
+                          type="text"
+                          label="Topic Name"
+                          value={newTopic.name}
+                          onChange={(e) =>
+                            setNewTopic({ ...newTopic, name: e.target.value })
                           }
-                        >
-                          Create Topic
-                        </Button>
-                        <Button onClick={() => handleToggleTopic(false)}>
-                          Cancel
-                        </Button>
-                      </div>
-                    </div>
-                  </TabPanel>
-                  {chapter.topics?.map((topic: any, topicIndex: any) => (
-                    <TabPanel key={topicIndex} id={`topic-${topicIndex}`}>
-                      <div className="p-4">
-                        <h3 className="text-lg font-medium">{topic.name}</h3>
-                        <p className="text-sm text-gray-700">
-                          {topic.description}
-                        </p>
-                        <a
-                          href={topic.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-500 underline"
-                        >
-                          {topic.link}
-                        </a>
+                          placeholder="Enter topic name"
+                        />
+                        <Input
+                          id="topic-description"
+                          type="text"
+                          label="Description"
+                          value={newTopic.description}
+                          onChange={(e) =>
+                            setNewTopic({
+                              ...newTopic,
+                              description: e.target.value,
+                            })
+                          }
+                          placeholder="Enter topic description"
+                        />
+                        <Input
+                          id="topic-link"
+                          type="text"
+                          label="Link"
+                          value={newTopic.link}
+                          onChange={(e) =>
+                            setNewTopic({ ...newTopic, link: e.target.value })
+                          }
+                          placeholder="Enter topic link"
+                        />
+                        <div className="flex gap-4">
+                          <Button
+                            onClick={() => {
+                              const data: any = {
+                                ...newTopic,
+                                chapterId: chapter.id,
+                                courseId: course?.id,
+                              };
+
+                              if ((course as any)?.status === "COMPLETED") {
+                                data.statusUpdate = true;
+                              }
+
+                              createTopic(data, {
+                                onSuccess: () => handleToggleTopic(false),
+                              });
+                            }}
+                            disabled={
+                              !newTopic.name.trim() ||
+                              !newTopic.description.trim() ||
+                              !newTopic.link.trim() ||
+                              isTopicCreating
+                            }
+                          >
+                            Create Topic
+                          </Button>
+                          <Button onClick={() => handleToggleTopic(false)}>
+                            Cancel
+                          </Button>
+                        </div>
                       </div>
                     </TabPanel>
-                  ))}
-                </TabPanels>
-              </Tabs>
-            </TabPanel>
+                    {chapter.topics?.map((topic: any, topicIndex: any) => (
+                      <TabPanel key={topicIndex} id={`topic-${topicIndex}`}>
+                        <div className="p-4">
+                          <h3 className="text-lg font-medium">{topic.name}</h3>
+                          <p className="text-sm text-gray-700">
+                            {topic.description}
+                          </p>
+                          <a
+                            href={topic.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 underline"
+                          >
+                            {topic.link}
+                          </a>
+                        </div>
+                      </TabPanel>
+                    ))}
+                  </TabPanels>
+                </Tabs>
+              </TabPanel>
             </div>
-            
-          ))} 
+          ))}
         </TabPanels>
       </Tabs>
     </div>

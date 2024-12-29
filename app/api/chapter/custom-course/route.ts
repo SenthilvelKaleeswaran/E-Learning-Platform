@@ -5,16 +5,31 @@ const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.json();
+    const { statusUpdate, myCourseStatusUpdate, myCourseId, ...rest } =
+      await request.json();
 
-    if (!data) {
+    const userId = request.headers.get("x-loc-user");
+
+    if (!userId) {
+      return NextResponse.json({ error: "Not Authorized" }, { status: 400 });
+    }
+
+    if (!rest) {
       return NextResponse.json(
         { error: "Data are required." },
         { status: 400 }
       );
     }
 
-    const newChapter = await prisma.chapter.create({ data });
+    const newChapter = await prisma.chapter.create({ data: rest });
+
+    if (statusUpdate) {
+      if (myCourseStatusUpdate)
+        await prisma.myCourse.update({
+          where: { id: myCourseId },
+          data: { status: "IN_PROGRESS" },
+        });
+    }
 
     return NextResponse.json(
       { message: "Chapter created successfully" },
@@ -39,7 +54,6 @@ export async function PATCH(request: NextRequest) {
         { status: 400 }
       );
     }
-    console.log({editTopic : "", rest})
 
     const updatedChapter = await prisma.chapter.update({
       where: { id },
@@ -75,8 +89,8 @@ export async function DELETE(request: NextRequest) {
       where: { id },
     });
 
-    await prisma.topic.delete({
-      where: {chapterId :  id },
+    await prisma.topic.deleteMany({
+      where: { chapterId: id },
     });
 
     return NextResponse.json(

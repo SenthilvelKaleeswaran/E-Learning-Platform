@@ -60,7 +60,12 @@ export async function POST(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    const { id, ...rest } = await request.json();
+    const { id, isCreateMyCourse, ...rest } = await request.json();
+    const userId = request.headers.get("x-loc-user");
+
+    if (!userId) {
+      return NextResponse.json({ error: "Not Authorized" }, { status: 400 });
+    }
 
     if (!id) {
       return NextResponse.json(
@@ -75,13 +80,7 @@ export async function PATCH(request: NextRequest) {
       data: rest,
     });
 
-    if (rest?.status === "COMPLETED") {
-      const userId = request.headers.get("x-loc-user");
-
-      if (!userId) {
-        return NextResponse.json({ error: "Not Authorized" }, { status: 400 });
-      }
-
+    if (isCreateMyCourse) {
       await prisma.myCourse.create({
         data: { courseId: id, userId },
       });
