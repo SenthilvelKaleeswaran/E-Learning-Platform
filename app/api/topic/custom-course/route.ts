@@ -5,20 +5,31 @@ const prisma = new PrismaClient();
 
 export async function POST(request: NextRequest) {
   try {
-    console.log({data : " ic ame"})
-    const data = await request.json();
-    console.log({data})
+    console.log({ data: " ic ame" });
+    const {
+      statusUpdate,
+      courseId,
+      myCourseStatusUpdate,
+      myCourseId,
+      ...data
+    } = await request.json();
+    console.log({ statusUpdate, courseId, myCourseStatusUpdate, myCourseId });
 
     if (!data) {
-      return NextResponse.json(
-        { error: "Data is required." },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Data is required." }, { status: 400 });
     }
 
-    const newTopic = await prisma.topic.create({data});
+    const newTopic = await prisma.topic.create({ data });
 
-    console.log({newTopic})
+    if (statusUpdate) {
+      if (myCourseStatusUpdate)
+        await prisma.myCourse.update({
+          where: { id: myCourseId },
+          data: { status: "IN_PROGRESS" },
+        });
+    }
+
+    console.log({ newTopic });
 
     return NextResponse.json(
       { message: "Topic created successfully", topic: newTopic },

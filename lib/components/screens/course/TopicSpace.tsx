@@ -19,7 +19,7 @@ export default function TopicSpace({
         <div className="hidden md:block">{renderStatusButton()}</div>
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-4 h-full"> 
         <Video src={currentTopic?.link} />
 
         <RenderSpace condition={currentTopic?.description}>

@@ -17,6 +17,7 @@ export default async function Create({ params, searchParams }: any) {
       <div className="p-10">
         <EdgecaseContainer
         title="Course Not Found"
+        type="error"
         description="It seems like you've altered the course ID or the course no longer exists. Please check the ID or explore other available courses."
       >
         <div className="flex justify-center">
@@ -29,5 +30,5 @@ export default async function Create({ params, searchParams }: any) {
     );
   }
 
-  return <CreateCourse courseDetails={courseDetails?.course} />;
+  return <CreateCourse courseDetails={courseDetails?.course} myCourse={courseDetails?.myCourse} />;
 }

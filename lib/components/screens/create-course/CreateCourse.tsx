@@ -45,7 +45,7 @@ interface Course {
   chapters: Chapter[];
 }
 
-const CreateCourse: React.FC = ({ courseDetails }: any) => {
+const CreateCourse: React.FC = ({ courseDetails, myCourse }: any) => {
   const router = useRouter();
   const [course, setCourse] = useState<Course>(courseDetails);
 
@@ -296,19 +296,39 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
     );
   };
 
+  const handleCreateChapter = () => {
+    const data: any = {
+      name: newChapter?.name,
+      courseId,
+    };
+
+    if ((course as any)?.status === "COMPLETED") {
+      data.statusUpdate = true;
+    }
+
+    if (myCourse?.status === "COMPLETED") {
+      data.myCourseStatusUpdate = true;
+      data.myCourseId = myCourse?.id;
+    }
+
+    createChapter(data);
+  };
+
   return (
     <div className="bg-gray-50 min-h-screen space-y-4">
       <div className="flex justify-between">
         <PageHeader title="Create Course" />
-        {(course as any)?.status === "COMPLETED" ? (
-          <Button
-            onClick={() => {
-              router.push(`/course?id=${courseId}`);
-            }}
-          >
-            View Course
-          </Button>
-        ) : (
+        <div className="flex gap-4">
+
+        <Button
+          onClick={() => {
+            router.push(`/course?id=${courseId}`);
+          }}
+        >
+          View Course
+        </Button>
+
+        <RenderSpace condition={(courseDetails as any)?.status !== "COMPLETED"}>
           <Button
             disabled={
               !course?.name ||
@@ -321,12 +341,17 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
                 status: "COMPLETED",
                 name: course?.name,
                 imageUrl: course?.imageUrl,
-              });
+                isCreateMyCourse: !myCourse?.id,
+              },{onSuccess : ()=> {
+                router?.refresh
+              } });
             }}
           >
             Create
           </Button>
-        )}
+        </RenderSpace>
+        </div>
+
       </div>
 
       <CourseDetailsCard course={course} setCourse={setCourse} />
@@ -339,6 +364,8 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
         setNewChapter={setNewChapter}
         handleToggleTopic={handleToggleTopic}
         isChapterUpdating={isChapterUpdating}
+        status={(course as any)?.status}
+        handleCreateChapter={handleCreateChapter}
       />
 
       <RenderSpace condition={showTopicForm}>
@@ -384,12 +411,24 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
                   });
                 } else {
                   const { id, ...rest } = newTopic;
-                  createTopic(
-                    { ...rest, chapterId: newChapter?.id },
-                    {
-                      onSuccess: () => handleToggleTopic(false),
-                    }
-                  );
+                  const data: any = {
+                    ...rest,
+                    chapterId: newChapter?.id,
+                    courseId: course?.id,
+                  };
+
+                  if ((course as any)?.status === "COMPLETED") {
+                    data.statusUpdate = true;
+                  }
+
+                  if (myCourse?.status === "COMPLETED") {
+                    data.myCourseStatusUpdate = true;
+                    data.myCourseId = myCourse?.id;
+                  }
+
+                  createTopic(data, {
+                    onSuccess: () => handleToggleTopic(false),
+                  });
                 }
               }}
               disabled={
@@ -430,7 +469,6 @@ const CreateCourse: React.FC = ({ courseDetails }: any) => {
             deleteLoading={isTopicDeleting}
             editLoading={isTopicUpdating}
           />
-          
         </div>
       </RenderSpace>
 

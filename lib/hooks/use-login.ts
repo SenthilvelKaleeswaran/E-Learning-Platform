@@ -26,7 +26,7 @@ const useLogin = () => {
     onSuccess: (data: any) => {
       console.log({data})
       if (data?.error) {
-        toast.error(data.error);
+        toast.error(data.error,{id : "login"});
       } else {
         toast.success("Logged in Successfully !",{id : "login"});
         router.push("/course-library");

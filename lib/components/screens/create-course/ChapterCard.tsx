@@ -5,12 +5,11 @@ import { RenderSpace } from "@/lib/components/shared";
 export default function ChapterCard({
   newChapter,
   renderFinalChpterButton,
-  createChapter,
-  courseId,
   isChapterCreating,
   setNewChapter,
   handleToggleTopic,
   isChapterUpdating,
+  handleCreateChapter
 }: any) {
   const renderProp = () => {
     return (
@@ -22,10 +21,7 @@ export default function ChapterCard({
             <Button
               onClick={(e) => {
                 e.stopPropagation();
-                createChapter({
-                  name: newChapter?.name,
-                  courseId,
-                });
+                handleCreateChapter()
               }}
               disabled={
                 (!newChapter?.name?.trim() && newChapter?.name?.length < 3) ||
@@ -42,8 +38,8 @@ export default function ChapterCard({
   return (
     <Accordion allowMultiple>
       <AccordionItem
-        title={"Course Details"}
-        description={`Details about the course `}
+        title={"Chapter Details"}
+        description={`Details about the chapter `}
         className=" border border-gray-300 rounded-md space-y-4 drop-shadow-lg"
         isActive
         renderProp={renderProp()}

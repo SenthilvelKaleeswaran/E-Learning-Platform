@@ -82,7 +82,9 @@ export default function CourseCard({
             </div>
 
             <div>
-              {item?.myCourseId ? (
+              {item?.myCourseId &&
+              !item?.userId &&
+              item?.status !== "IN_PROGRESS" ? (
                 <div className="flex justify-between gap-4">
                   <ProgressBar
                     value={
@@ -106,7 +108,7 @@ export default function CourseCard({
                     </Button>
                   ) : null}
                 </div>
-              ) : item?.userId && item?.status === "IN_PROGRESS" ? (
+              ) : item?.userId && item?.status === "IN_PROGRESS" &&  !item.completedPercentage? (
                 <div className="flex gap-2 items-center justify-between">
                   <p className="p-1 bg-orange-400 px-2 text-xs rounded-full text-white ">
                     In Progress
@@ -119,6 +121,30 @@ export default function CourseCard({
                   >
                     Continue Creating
                   </Button>
+                </div>
+              ) : item?.userId  ? (
+                <div className="flex justify-between gap-4">
+                  <ProgressBar
+                    value={
+                      item?.status === "COMPLETED"
+                        ? 100
+                        : item?.completedPercentage
+                    }
+                  />
+
+                  { item?.status !== "COMPLETED" ? (
+                    <Button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCompletion(item);
+                      }}
+                      disabled={
+                        updateRequested?.id === item?.myCourseId || isCompleting
+                      }
+                    >
+                      Completed
+                    </Button>
+                  ) : null}
                 </div>
               ) : (
                 <div className="flex justify-end gap-4">

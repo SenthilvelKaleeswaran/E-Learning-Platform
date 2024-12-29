@@ -14,7 +14,8 @@ export default function ChaptersList({
   deleteChapter,
   handleEditChapter,
   updateChapter,
-  isTopicUpdating
+  isTopicUpdating,
+  isChapterDeleting,
 }: any) {
   const renderChapterButton = ({ chapter, index }: any) => {
     if (chapter?.id === newChapter?.id)
@@ -27,23 +28,24 @@ export default function ChaptersList({
     else {
       return (
         <div className="flex gap-4">
-          <RenderSpace condition={!newChapter?.id}> 
-          <EditButton
+          <RenderSpace condition={!newChapter?.id}>
+            <EditButton
+            disabled={isChapterDeleting || isChapterUpdating}
             onClick={(e: any) => {
-              e.stopPropagation();
+                e.stopPropagation();
 
-              updateChapter(
-                { id: chapter?.id, isCurrent: true },
-                { onSuccess: () => handleEditChapter(index) }
-              );
-            }}
-          >
-            Edit
-          </EditButton>
+                updateChapter(
+                  { id: chapter?.id, isCurrent: true },
+                  { onSuccess: () => handleEditChapter(index) }
+                );
+              }}
+            >
+              Edit
+            </EditButton>
           </RenderSpace>
-         
+
           <DeleteButton
-            disabled={isChapterUpdating}
+            disabled={isChapterDeleting || isChapterUpdating}
             onClick={(e: any) => {
               e.stopPropagation();
 
@@ -62,6 +64,7 @@ export default function ChaptersList({
       <RenderSpace condition={chapter?.id !== newChapter?.id}>
         <div className="space-x-2">
           <EditButton
+            disabled={isTopicUpdating}
             onClick={() => handleEditTopic(topicIndex, index, chapter?.id)}
           >
             Edit
