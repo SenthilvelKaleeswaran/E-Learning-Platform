@@ -21,7 +21,7 @@ const useLogout = (setIsLoggingOut: any) => {
         );
       } else {
         toast.success("Successfully Logged Out !",{id : "logout"});
-        router.push("/login");
+        router.replace("/login");
       }
       setIsLoggingOut(false);
     },

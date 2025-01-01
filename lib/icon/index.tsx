@@ -20,6 +20,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import { IoEyeOutline } from "react-icons/io5";
 import { LuLoader } from "react-icons/lu";
 import { FaEllipsisVertical } from "react-icons/fa6";
+import { FaRegFolder } from "react-icons/fa6";
 const iconMap = {
   Add : CgAddR,
   ArrowLeft : FaChevronLeft,
@@ -31,6 +32,7 @@ const iconMap = {
   Dashboard : LuLayoutDashboard,
   Edit : FaPen,
   File : FaRegFile,
+  Folder : FaRegFolder,
   Loading :LuLoader,
   Logo  :PiCatFill,
   LogoTail : IoPaw,
