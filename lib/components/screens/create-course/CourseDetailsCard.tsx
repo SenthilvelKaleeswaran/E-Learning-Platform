@@ -1,7 +1,6 @@
 import React from "react";
 import { Accordion, AccordionItem, Button, Input } from "@/lib/components/ui";
-import { ImageContainer, RenderSpace } from "@/lib/components/shared";
-import Image from "next/image";
+import { ImageContainer } from "@/lib/components/shared";
 import { useCreateCourse } from "@/lib/hooks";
 
 export default function CourseDetailsCard({ course, setCourse }: any) {

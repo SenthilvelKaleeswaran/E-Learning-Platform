@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const newChapter = await prisma.chapter.create({ data: rest });
+    await prisma.chapter.create({ data: rest });
 
     if (statusUpdate) {
       if (myCourseStatusUpdate)

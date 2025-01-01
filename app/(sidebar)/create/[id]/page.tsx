@@ -4,7 +4,7 @@ import { EdgecaseContainer } from "@/lib/components/shared";
 import { LinkButton } from "@/lib/components/ui";
 import { getCourse } from "@/lib/utils/api-call";
 
-export default async function Create({ params, searchParams }: any) {
+export default async function Create({ params }: any) {
   await accessPage();
 
   const { id } = await params;

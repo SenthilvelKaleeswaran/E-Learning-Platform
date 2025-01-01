@@ -1,5 +1,5 @@
 import React from "react";
-import { Accordion, AccordionItem, Button } from "@/lib/components/ui";
+import { Accordion, AccordionItem } from "@/lib/components/ui";
 import { DeleteButton, EditButton, RenderSpace } from "@/lib/components/shared";
 import TopicsCard from "./TopicsCard";
 
@@ -59,28 +59,28 @@ export default function ChaptersList({
     }
   };
 
-  const renderTopicButton = ({ chapter, topicIndex, index, topic }: any) => {
-    return (
-      <RenderSpace condition={chapter?.id !== newChapter?.id}>
-        <div className="space-x-2">
-          <EditButton
-            disabled={isTopicUpdating}
-            onClick={() => handleEditTopic(topicIndex, index, chapter?.id)}
-          >
-            Edit
-          </EditButton>
-          <RenderSpace condition={chapter?.topics?.length > 1}>
-            <DeleteButton
-              onClick={() => deleteTopic(topic?.id)}
-              disabled={isTopicDeleting}
-            >
-              Delete
-            </DeleteButton>
-          </RenderSpace>
-        </div>
-      </RenderSpace>
-    );
-  };
+  // const renderTopicButton = ({ chapter, topicIndex, index, topic }: any) => {
+  //   return (
+  //     <RenderSpace condition={chapter?.id !== newChapter?.id}>
+  //       <div className="space-x-2">
+  //         <EditButton
+  //           disabled={isTopicUpdating}
+  //           onClick={() => handleEditTopic(topicIndex, index, chapter?.id)}
+  //         >
+  //           Edit
+  //         </EditButton>
+  //         <RenderSpace condition={chapter?.topics?.length > 1}>
+  //           <DeleteButton
+  //             onClick={() => deleteTopic(topic?.id)}
+  //             disabled={isTopicDeleting}
+  //           >
+  //             Delete
+  //           </DeleteButton>
+  //         </RenderSpace>
+  //       </div>
+  //     </RenderSpace>
+  //   );
+  // };
   return (
     <div className="space-y-4">
       <p className="text-2xl font-semibold text-gray-700">Chapters</p>

@@ -3,13 +3,11 @@
 import { useLogout } from "@/lib/hooks";
 import { Icon } from "@/lib/icon";
 import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
 
 const ProfileMenu = ({ user }: any) => {
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const router = useRouter();
 
   const { mutate } = useLogout(setIsLoading);
 

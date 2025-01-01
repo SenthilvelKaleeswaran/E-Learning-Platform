@@ -1,22 +1,7 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
-import {
-  DeleteButton,
-  EditButton,
-  PageHeader,
-  RenderSpace,
-  VideoThumbnail,
-} from "@/lib/components/shared";
-import {
-  Accordion,
-  AccordionItem,
-  Button,
-  Drawer,
-  Input,
-  Tab,
-  TabList,
-  Tabs,
-} from "@/lib/components/ui";
+import React, { useEffect, useState } from "react";
+import { PageHeader, RenderSpace } from "@/lib/components/shared";
+import { Button, Input } from "@/lib/components/ui";
 import { useCreateCourse } from "@/lib/hooks";
 import ChaptersList from "./ChaptersList";
 import CourseDetailsCard from "./CourseDetailsCard";
@@ -45,7 +30,7 @@ interface Course {
   chapters: Chapter[];
 }
 
-const CreateCourse: React.FC = ({ courseDetails, myCourse }: any) => {
+const CreateCourse = ({ courseDetails, myCourse }: any) => {
   const router = useRouter();
   const [course, setCourse] = useState<Course>(courseDetails);
 
@@ -319,39 +304,44 @@ const CreateCourse: React.FC = ({ courseDetails, myCourse }: any) => {
       <div className="flex justify-between">
         <PageHeader title="Create Course" />
         <div className="flex gap-4">
-
-        <Button
-          onClick={() => {
-            router.push(`/course?id=${courseId}`);
-          }}
-        >
-          View Course
-        </Button>
-
-        <RenderSpace condition={(courseDetails as any)?.status !== "COMPLETED"}>
           <Button
-            disabled={
-              !course?.name ||
-              course?.name?.trim()?.length < 3 ||
-              isCourseUpdating
-            }
             onClick={() => {
-              updateCourse({
-                id: courseId,
-                status: "COMPLETED",
-                name: course?.name,
-                imageUrl: course?.imageUrl,
-                isCreateMyCourse: !myCourse?.id,
-              },{onSuccess : ()=> {
-                router?.refresh
-              } });
+              router.push(`/course?id=${courseId}`);
             }}
           >
-            Create
+            View Course
           </Button>
-        </RenderSpace>
-        </div>
 
+          <RenderSpace
+            condition={(courseDetails as any)?.status !== "COMPLETED"}
+          >
+            <Button
+              disabled={
+                !course?.name ||
+                course?.name?.trim()?.length < 3 ||
+                isCourseUpdating
+              }
+              onClick={() => {
+                updateCourse(
+                  {
+                    id: courseId,
+                    status: "COMPLETED",
+                    name: course?.name,
+                    imageUrl: course?.imageUrl,
+                    isCreateMyCourse: !myCourse?.id,
+                  },
+                  {
+                    onSuccess: () => {
+                      router?.refresh();
+                    },
+                  }
+                );
+              }}
+            >
+              Create
+            </Button>
+          </RenderSpace>
+        </div>
       </div>
 
       <CourseDetailsCard course={course} setCourse={setCourse} />
@@ -410,6 +400,7 @@ const CreateCourse: React.FC = ({ courseDetails, myCourse }: any) => {
                     },
                   });
                 } else {
+                  // eslint-disable-next-line @typescript-eslint/no-unused-vars
                   const { id, ...rest } = newTopic;
                   const data: any = {
                     ...rest,

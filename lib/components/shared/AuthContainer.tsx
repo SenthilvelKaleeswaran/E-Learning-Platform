@@ -9,6 +9,8 @@ const AuthContainer = ({ title, description, fields, type }: any) => {
   const { mutate: onLogin ,isPending : isLoggingIn} = useLogin();
   const { mutate: onRegister ,isPending  : isRegistering} = useRegister();
 
+  const router = useRouter()
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
