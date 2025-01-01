@@ -42,7 +42,7 @@ export async function GET(request: NextRequest) {
     console.log({ courses });
 
     const myCoursesMap = new Map(
-      myCourses.map((myCourse) => [
+      myCourses.map((myCourse : any) => [
         myCourse.courseId,
         {
           id: myCourse?.id,
