@@ -2,7 +2,7 @@ import accessPage from "@/lib/auth/access-page";
 import { createCustomCourse } from "@/lib/utils/api-call";
 import { redirect } from "next/navigation";
 
-export default async function Create({ params, searchParams }: any) {
+export default async function Create() {
   await accessPage();
 
   const newCourse = await createCustomCourse();

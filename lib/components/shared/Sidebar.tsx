@@ -3,7 +3,7 @@
 import { MenuList } from "@/lib/constants";
 import { Icon } from "@/lib/icon";
 import { usePathname, useRouter } from "next/navigation";
-import { Button, LinkButton } from "@/lib/components/ui";
+import { Button } from "@/lib/components/ui";
 
 const Sidebar = () => {
   const router = useRouter();

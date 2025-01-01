@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { toast } from "react-hot-toast";
 import {
   createCustomCourse,
@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
    
 
 const useCreateCourse = () => {
-  const queryClient = useQueryClient();
   const router = useRouter()
 
   const handleMutate = (message: string, id: string) => {

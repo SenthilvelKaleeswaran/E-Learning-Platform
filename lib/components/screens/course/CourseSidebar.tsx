@@ -77,9 +77,9 @@ export default function CourseSidebar({
       <div className="flex-1 overflow-y-auto">
         <Accordion allowMultiple>
           {chapters.map((chapter: any) => (
-            <RenderSpace condition={chapter?.topics?.length}>
+            <RenderSpace condition={chapter?.topics?.length}  key={chapter.id}>
               <AccordionItem
-                key={chapter.id}
+               
                 title={chapter.name}
                 description={chapter.description}
               >

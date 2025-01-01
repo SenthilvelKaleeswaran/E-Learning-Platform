@@ -1,6 +1,5 @@
 "use client";
 import { Icon } from "@/lib/icon";
-import Image from "next/image";
 import React from "react";
 import { Button, ProgressBar } from "@/lib/components/ui";
 import {

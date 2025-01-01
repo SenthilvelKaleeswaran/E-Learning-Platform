@@ -1,6 +1,5 @@
 import { FC } from "react";
 import Module from "./module";
-import Logo from "./logo";
 import { IoLogOutOutline } from "react-icons/io5";
 import { FaRegUser } from "react-icons/fa6";
 import { IoIosArrowDown } from "react-icons/io";

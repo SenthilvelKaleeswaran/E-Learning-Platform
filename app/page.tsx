@@ -51,7 +51,7 @@ export default async function Home() {
           </h2>
           <p className="text-gray-600">
             Learn through structured video courses and create your own content
-            at your pace with Edu Cat's comprehensive platform.
+            at your pace with Edu Cat&apos;s comprehensive platform.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
             <div className="p-6 bg-white shadow-lg rounded-md">
