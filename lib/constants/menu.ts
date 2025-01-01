@@ -11,7 +11,7 @@ export const MenuList = [
   },
   {
     id: "created-course",
-    icon: "File",
+    icon: "Folder",
     name: "Created Courses",
   },
 ];
