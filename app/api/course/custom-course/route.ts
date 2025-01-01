@@ -119,7 +119,7 @@ export async function DELETE(request: NextRequest) {
       where: { courseId: id },
     });
 
-    const chapterIds = chapters.map((chapter) => chapter.id);
+    const chapterIds = chapters.map((chapter : any) => chapter.id);
     console.log({chapterIds})
 
     await Promise.all([
