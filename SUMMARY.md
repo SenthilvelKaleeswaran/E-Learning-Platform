@@ -1,30 +1,22 @@
 # Table of contents
 
-* [Javascript](README.md)
-  * [Resources](javascript/resources.md)
-  * [Interview Questions](javascript/interview-questions.md)
-* [Sample](sample.md)
-* [Other Resources blogs](other-resources-blogs.md)
+* [Page](README.md)
+* [Page 1](page-1.md)
 
-## Concepts
+## Group 1
 
-* [How JS works -](concepts/how-js-works.md)
-* [How Js Works Underhood](concepts/how-js-works-underhood.md)
-* [Execution Context](concepts/execution-context/README.md)
-  * [Creation Phase](concepts/execution-context/creation-phase.md)
-* [Closure](concepts/closure.md)
-* [Hoisting](concepts/hoisting/README.md)
-  * [Variable Hoisting](concepts/hoisting/variable-hoisting.md)
-  * [Function Hoisiting](concepts/hoisting/function-hoisiting.md)
-  * [Class Hoisiting](concepts/hoisting/class-hoisiting.md)
-  * [Temporal Dead Zone (TDZ)](concepts/hoisting/temporal-dead-zone-tdz.md)
-  * [Examples - Function Hoisitng](concepts/hoisting/examples-function-hoisitng.md)
-  * [Examples - TDZ](concepts/hoisting/examples-tdz.md)
-  * [Pitfalls  - Variable Hoisting](concepts/hoisting/pitfalls-variable-hoisting.md)
-  * [Pitfalls  - Function Hoisting](concepts/hoisting/pitfalls-function-hoisting.md)
-  * [Pitfalls - TDZ](concepts/hoisting/pitfalls-tdz.md)
-* [Scope](concepts/scope/README.md)
-  * [Scope Chain](concepts/scope/scope-chain.md)
-* [this](concepts/this.md)
-* [Error Handling](concepts/error-handling/README.md)
-  * [ReferenceError](concepts/error-handling/referenceerror.md)
+* [Object](group-1/object/README.md)
+  * [readOnly](group-1/object/readonly.md)
+* [Page 2](group-1/page-2.md)
+
+***
+
+* [Page 3](page-3.md)
+
+## Types
+
+* [any](types/any.md)
+* [unknown](types/unknown.md)
+* [never](types/never.md)
+* [Type assertion](types/type-assertion/README.md)
+  * [as any](types/type-assertion/as-any.md)
